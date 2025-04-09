@@ -2,6 +2,8 @@
 
 A PyQt5-based editor for creating and editing tile-based maps, with support for animated tiles and various unit types. This application is designed for editing maps compatible with game engines like PETSCII Robots.
 
+<img src='Screenshot.png' width='1024' alt='Screenshot' align='center'>
+
 ## Project Structure
 
 The project is organized into several Python modules, each with specific responsibilities:
