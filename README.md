@@ -44,7 +44,8 @@ The project is organized into several Python modules, each with specific respons
 7. Copy the tiles in the folder `tiles`
 8. Download levels from: [https://github.com/zeropolis79/PETSCIIRobots-Pet/tree/main](https://github.com/zeropolis79/PETSCIIRobots-Pet/tree/main)
 9. Rename `level-a` to `level-a.bin` and so on
-10. Run the application: `python main.py`
+10. In case of `venv`: `source /path-to-pgrogram/bin/activate`
+11. Run the application: `python3 main.py`
 
 ## Usage
 
