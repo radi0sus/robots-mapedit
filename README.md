@@ -79,7 +79,7 @@ The project is organized into several Python modules, each with specific respons
 
 - The application loads maps (levels) in a binary format compatible with PETSCII Robots. 
 - Rename the level to `level.bin`. 
-- Only the original PET levels work out of the box. Levels for other systems could different offsets.
+- Only the original PET levels work out of the box. Levels for other systems could have different offsets.
 - Warning! Saving a level, will destroy it!
 
 ## Directory Structure
