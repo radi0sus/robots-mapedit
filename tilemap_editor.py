@@ -8,13 +8,15 @@ from PyQt5.QtGui import QKeySequence
 from PyQt5.QtCore import Qt
 
 from constants import (
-    TILE_SIZE, DEFAULT_MAP_WIDTH, DEFAULT_MAP_HEIGHT, MAP_WIDTH, MAP_HEIGHT,
+    TILE_SIZE, DEFAULT_MAP_WIDTH, DEFAULT_MAP_HEIGHT,
     DEFAULT_NAV_SPEED, ANIMATION_INTERVAL, APP_WIDTH, APP_HEIGHT
 )
 from map_data import MapData
 from tile_manager import TileManager
 from animation import AnimationController
 from ui_components import TilesetPaletteWidget, MapCanvasWidget
+
+from unit_editor import UnitEditor
 
 class TileMapEditor(QWidget):
     """Main tile map editor application"""
@@ -43,8 +45,8 @@ class TileMapEditor(QWidget):
         # Navigation properties
         self.map_window_x = 0
         self.map_window_y = 0
-        self.map_window_width = MAP_WIDTH
-        self.map_window_height = MAP_HEIGHT
+        self.map_window_width = DEFAULT_MAP_WIDTH
+        self.map_window_height = DEFAULT_MAP_HEIGHT
         self.nav_speed = DEFAULT_NAV_SPEED
         
         # Initial loading
@@ -55,13 +57,20 @@ class TileMapEditor(QWidget):
         
         # Set focus to the canvas
         self.canvas.setFocus()
-    
+        
+    def open_unit_editor(self):
+        """Open the unit editor dialog"""
+        editor = UnitEditor(self, self.map_data)
+        editor.exec_()
+        # Update the display when the dialog closes
+        self.update_map_display()
+        
     def init_ui(self):
         """Initialize the user interface"""
         # Map canvas
         self.canvas = MapCanvasWidget(self)
-        self.canvas.window_width = MAP_WIDTH
-        self.canvas.window_height = MAP_HEIGHT
+        self.canvas.window_width = DEFAULT_MAP_WIDTH
+        self.canvas.window_height = DEFAULT_MAP_HEIGHT
         
         # Wrap the canvas in a scroll area
         self.scroll_area = QScrollArea()
@@ -113,7 +122,11 @@ class TileMapEditor(QWidget):
         layout.addWidget(self.scroll_area, 0, 0, 2, 1)
         layout.addWidget(self.palette, 0, 1)
         layout.addLayout(buttons, 1, 1)
-
+        
+        unit_editor_button = QPushButton("Edit Units")
+        unit_editor_button.clicked.connect(self.open_unit_editor)
+        buttons.addWidget(unit_editor_button)
+        
         self.setLayout(layout)
         
         self.setGeometry(100, 100, APP_WIDTH, APP_HEIGHT)
