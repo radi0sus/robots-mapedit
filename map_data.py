@@ -12,6 +12,8 @@ class MapData:
         self.undo_stack = []
         self.redo_stack = []
         self.unit_positions = {}  # Maps unit_id to (x, y, unit_type)
+        # header 
+        self.header_bytes = bytearray([0x0, 0x0])  # Default to zeros
     
     def get_tile(self, x, y):
         """Get the tile at (x, y) coordinates"""
@@ -51,22 +53,44 @@ class MapData:
         return False
     
     def save_binary(self, filepath):
+        from constants import (MAP_DATA_OFFSET, UNIT_TYPES_OFFSET, UNIT_X_OFFSET, UNIT_Y_OFFSET, 
+                              UNIT_A_OFFSET, UNIT_B_OFFSET, UNIT_C_OFFSET, UNIT_D_OFFSET, UNIT_H_OFFSET, 
+                              BASE_ADDRESS)
         """Save map to binary file format"""
         try:
             # PETSCII Robots format with units
-            bytes_to_write = bytearray(770 + 128 * 64)  # Initialize with zeros
+            #bytes_to_write = bytearray(770 + 128 * 64)  # Initialize with zeros
+            bytes_to_write = bytearray(MAP_DATA_OFFSET + 128 * 64) 
             
+            # Write the header bytes first
+            bytes_to_write[0x0000:0x0002] = self.header_bytes
             # Write unit data
             for unit_id, (x, y, unit_type, a, b, c, d, h) in self.unit_positions.items():
                 if 0 <= unit_id < 64:
-                    bytes_to_write[unit_id] = unit_type                # Unit type
-                    bytes_to_write[0x0040 + unit_id] = x               # X position
-                    bytes_to_write[0x0080 + unit_id] = y               # Y position
-                    bytes_to_write[0x00C0 + unit_id] = a               # Property A
-                    bytes_to_write[0x0100 + unit_id] = b               # Property B
-                    bytes_to_write[0x0140 + unit_id] = c               # Property C
-                    bytes_to_write[0x0180 + unit_id] = d               # Property D
-                    bytes_to_write[0x01C0 + unit_id] = h               # Health
+                    #bytes_to_write[unit_id] = unit_type                              # Unit type
+                    #bytes_to_write[BASE_ADDRESS+0x0040 + unit_id] = x               # X position
+                    #bytes_to_write[BASE_ADDRESS+0x0080 + unit_id] = y               # Y position
+                    #bytes_to_write[BASE_ADDRESS+0x00C0 + unit_id] = a               # Property A
+                    #bytes_to_write[BASE_ADDRESS+0x0100 + unit_id] = b               # Property B
+                    #bytes_to_write[BASE_ADDRESS+0x0140 + unit_id] = c               # Property C
+                    #bytes_to_write[BASE_ADDRESS+0x0180 + unit_id] = d               # Property D
+                    #bytes_to_write[BASE_ADDRESS+0x01C0 + unit_id] = h               # Health
+                    #UNIT_TYPES_OFFSET = UNIT_TYPES_OFFSET + BASE_ADDRESS 
+                    #UNIT_X_OFFSET = UNIT_X_OFFSET + BASE_ADDRESS
+                    #UNIT_Y_OFFSET = UNIT_Y_OFFSET + BASE_ADDRESS
+                    #UNIT_A_OFFSET = UNIT_A_OFFSET + BASE_ADDRESS
+                    #UNIT_B_OFFSET = UNIT_B_OFFSET + BASE_ADDRESS
+                    #UNIT_C_OFFSET = UNIT_C_OFFSET + BASE_ADDRESS
+                    #UNIT_D_OFFSET = UNIT_D_OFFSET + BASE_ADDRESS
+                    #UNIT_H_OFFSET = UNIT_H_OFFSET + BASE_ADDRESS
+                    bytes_to_write[UNIT_TYPES_OFFSET + unit_id] = unit_type  
+                    bytes_to_write[UNIT_X_OFFSET + unit_id] = x               # X position
+                    bytes_to_write[UNIT_Y_OFFSET + unit_id] = y               # Y position
+                    bytes_to_write[UNIT_A_OFFSET + unit_id] = a               # Property A
+                    bytes_to_write[UNIT_B_OFFSET + unit_id] = b               # Property B
+                    bytes_to_write[UNIT_C_OFFSET + unit_id] = c               # Property C
+                    bytes_to_write[UNIT_D_OFFSET + unit_id] = d               # Property D
+                    bytes_to_write[UNIT_H_OFFSET + unit_id] = h               # Health
             
             # Write map data
             for y in range(min(self.height, 64)):
@@ -89,17 +113,27 @@ class MapData:
     def load_binary(self, filepath):
         """Load map from binary file format"""
         from constants import (MAP_DATA_OFFSET, UNIT_TYPES_OFFSET, UNIT_X_OFFSET, UNIT_Y_OFFSET, 
-                              UNIT_A_OFFSET, UNIT_B_OFFSET, UNIT_C_OFFSET, UNIT_D_OFFSET ,UNIT_H_OFFSET)
+                              UNIT_A_OFFSET, UNIT_B_OFFSET, UNIT_C_OFFSET, UNIT_D_OFFSET, UNIT_H_OFFSET,  
+                               BASE_ADDRESS)
         
         try:
             with open(filepath, 'rb') as f:
                 binary_data = f.read()
-            
             # Reset map data
-            self.data = [[-1 for _ in range(self.width)] for _ in range(self.height)]
-            self.unit_positions = {}
-            
+            #self.data = [[-1 for _ in range(self.width)] for _ in range(self.height)]
+            #self.unit_positions = {}
+            #header
+            self.header_bytes = binary_data[0x0000:0x0002]
+           
             # Extract unit data
+            #UNIT_TYPES_OFFSET = UNIT_TYPES_OFFSET + BASE_ADDRESS 
+            #UNIT_X_OFFSET = UNIT_X_OFFSET + BASE_ADDRESS
+            #UNIT_Y_OFFSET = UNIT_Y_OFFSET + BASE_ADDRESS
+            #UNIT_A_OFFSET = UNIT_A_OFFSET + BASE_ADDRESS
+            #UNIT_B_OFFSET = UNIT_B_OFFSET + BASE_ADDRESS
+            #UNIT_C_OFFSET = UNIT_C_OFFSET + BASE_ADDRESS
+            #UNIT_D_OFFSET = UNIT_D_OFFSET + BASE_ADDRESS
+            #UNIT_H_OFFSET = UNIT_H_OFFSET + BASE_ADDRESS
             unit_types = binary_data[UNIT_TYPES_OFFSET:UNIT_TYPES_OFFSET+0x40]
             unit_xs = binary_data[UNIT_X_OFFSET:UNIT_X_OFFSET+0x40]
             unit_ys = binary_data[UNIT_Y_OFFSET:UNIT_Y_OFFSET+0x40]
@@ -119,6 +153,7 @@ class MapData:
                 c = unit_c[i]
                 d = unit_d[i]
                 h = unit_h[i]
+
                 self.unit_positions[i] = (x, y, t, a, b, c, d, h)
                 if t == 1:
                     print(f"Player (Unit {i}): Position ({x}, {y}), Type: {t}, A: {a}, B: {b}, C: {c}, D: {d}, Health: {h}")
@@ -133,7 +168,7 @@ class MapData:
                 #        self.unit_positions[0] = (x, y, t, a, b, c, d, h)  # Assign player to Unit 0
                 #    else:
                 #        print(f"Unit {i}: Position ({x}, {y}), Type: {t}, A: {a}, B: {b}, C: {c}, D: {d}, Health: {h}")
-            
+
             # Process map tiles
             print("\n--- Loading Map Tiles ---")
             index = MAP_DATA_OFFSET
