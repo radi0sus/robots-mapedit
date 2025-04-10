@@ -10,6 +10,10 @@ class UnitTypeInfo:
     """Information about unit types and their properties"""
     
     UNIT_TYPES = {
+        #There seem to be special units?
+       # 0: "Reserved",
+       #93: "Reserved",
+        #####
         1: "Player",
         2: "Hoverbot left/right movement",
         3: "Hoverbot up/down movement", 
@@ -93,16 +97,16 @@ class UnitTypeInfo:
         128: {
             "A": "0=SPADE, 1=HEART, 2=STAR",
             "B": "Unused",
-            "C": "Unused",
-            "D": "Unused",
+            "C": "Extend search area horizontal (between 0 and 127)",
+            "D": "Extend search area vertical (between 0 and 63)",
             "H": "Unused"
         },
         # Weapons/Items (129-134)
         129: {
             "A": "Quantity (between 1 and 255)",
-            "B": "Extend search area horizontal (between 0 and 127)",
-            "C": "Extend search area vertical (between 0 and 63)",
-            "D": "Unused",
+            "B": "Unused",
+            "C": "Extend search area horizontal (between 0 and 127)",
+            "D": "Extend search area vertical (between 0 and 63)",
             "H": "Unused"
         }
     }
@@ -144,16 +148,28 @@ class UnitTypeInfo:
     @staticmethod
     def get_unit_color(unit_id, unit_type):
         """Get color for a unit based on its ID and type"""
-        if unit_id == 0:  # Player
+        if unit_type == 1:  # Player
             return PLAYER_COLOR
-        elif 3 <= unit_id <= 27:  # Robots
+        elif 1 <= unit_id <= 1 + 26:  # Robots
             return ROBOT_COLOR
-        elif 32 <= unit_id <= 47:  # Doors
+        elif 32 <= unit_id <= 32 + 15:  # Doors
             return DOOR_COLOR
-        elif 48 <= unit_id <= 63:  # Items
+        elif 48 <= unit_id <= 48 + 15:  # Items
             return ITEM_COLOR
         return "gray"  # Default
 
+#    @staticmethod
+#    def get_unit_color(unit_id, unit_type):
+#        """Get color for a unit based on its ID and type"""
+#        if unit_type == 1:  # Player
+#            return PLAYER_COLOR
+#        elif 2 <= unit_type <= 4 or unit_type == 9 or 17 <= unit_type <= 18:  # Robots
+#            return ROBOT_COLOR
+#        elif unit_type == 7 or unit_type == 10 or unit_type == 16 or unit_type == 19 or unit_type == 22:  # Doors
+#            return DOOR_COLOR
+#        elif 128 <= unit_type <= 134:  # Items
+#            return ITEM_COLOR
+#        return "gray"  # Default
 
 class UnitEditor(QDialog):
     """Dialog for adding and editing units"""
