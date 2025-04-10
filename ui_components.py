@@ -1,3 +1,4 @@
+# ui components
 from PyQt5.QtWidgets import QLabel, QScrollArea
 from PyQt5.QtGui import QImage, QPixmap, QPainter, QColor, QFont
 from PyQt5.QtCore import Qt
