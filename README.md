@@ -44,7 +44,7 @@ The project is organized into several Python modules, each with specific respons
 6. Make a folder `tiles` in the same directory
 7. Download tiles (`.png`) from: [https://github.com/zeropolis79/PETSCIIRobots-Amiga/tree/main/Amiga](https://github.com/zeropolis79/PETSCIIRobots-Amiga/tree/main/Amiga)
 8. Copy the tiles in the folder `tiles`
-9. Download levels from: [https://github.com/zeropolis79/PETSCIIRobots-Pet/tree/main](https://github.com/zeropolis79/PETSCIIRobots-Pet/tree/main)
+9. Download levels from: [https://github.com/zeropolis79/PETSCIIRobots-Pet/tree/main](https://github.com/zeropolis79/PETSCIIRobots-Pet/tree/main) or from other level locations (see *Map Files*).
 10. Rename `level-a` to `level-a.bin` and so on
 11. In case of `venv`: `source /path-to-program/bin/activate`
 12. Run the application: `python3 main.py`
