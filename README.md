@@ -2,7 +2,9 @@
 
 A PyQt5-based editor for creating and editing tile-based maps, with support for animated tiles and various unit types. This application is designed for editing maps compatible with game engines like PETSCII Robots.
 
-<img src='Screenshot.png' width='1024' alt='Screenshot' align='center'>
+<img src='gfx/Screenshot1.png' width='1024' alt='Screenshot' align='center'>
+<img src='gfx/Screenshot2.png' width='1024' alt='Screenshot' align='center'>
+<img src='gfx/Screenshot3.png' width='1024' alt='Screenshot' align='center'>
 
 ## Project Structure
 
@@ -98,10 +100,14 @@ Example `D38-10-3`: Door with Unit ID 17, Type 10, needs Key 3
   4. Add Unit.
   5. Insert the Unit ID.
   6. Change the type and properties.
+  7. Save the changes
+  8. Save the map.
 - To change properties of a unit:
   1. Select the unit in the Edit Units window
   2. Change the type (if you like). But it must be of the same type, so replacing a robot with a robot is possible.
   3. Change the parameters. More ammo, more health or less...
+  4. Save the changes
+  5. Save the map.
      
 ### Map Files
 
