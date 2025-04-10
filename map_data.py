@@ -1,5 +1,5 @@
 import copy
-from constants import DEFAULT_MAP_WIDTH, DEFAULT_MAP_HEIGHT
+from constants import DEFAULT_MAP_WIDTH, DEFAULT_MAP_HEIGHT, MAP_DATA_OFFSET
 
 class MapData:
     """Manages the map data and provides undo/redo functionality"""
@@ -53,8 +53,20 @@ class MapData:
     def save_binary(self, filepath):
         """Save map to binary file format"""
         try:
-            # PETSCII Robots format: 128x64 map
-            bytes_to_write = bytearray()
+            # PETSCII Robots format with units
+            bytes_to_write = bytearray(770 + 128 * 64)  # Initialize with zeros
+            
+            # Write unit data
+            for unit_id, (x, y, unit_type, a, b, c, d, h) in self.unit_positions.items():
+                if 0 <= unit_id < 64:
+                    bytes_to_write[unit_id] = unit_type                # Unit type
+                    bytes_to_write[0x0040 + unit_id] = x               # X position
+                    bytes_to_write[0x0080 + unit_id] = y               # Y position
+                    bytes_to_write[0x00C0 + unit_id] = a               # Property A
+                    bytes_to_write[0x0100 + unit_id] = b               # Property B
+                    bytes_to_write[0x0140 + unit_id] = c               # Property C
+                    bytes_to_write[0x0180 + unit_id] = d               # Property D
+                    bytes_to_write[0x01C0 + unit_id] = h               # Health
             
             # Write map data
             for y in range(min(self.height, 64)):
@@ -63,12 +75,8 @@ class MapData:
                     tile = self.data[y][x]
                     if tile == -1:
                         tile = 0
-                    bytes_to_write.append(tile & 0xFF)
-            
-            # Pad to full 128x64 size if smaller
-            remaining_bytes = 128 * 64 - len(bytes_to_write)
-            if remaining_bytes > 0:
-                bytes_to_write.extend([0] * remaining_bytes)
+                    ##### offset!!! depends on device!! 770 PET, 770-128-128 X16 
+                    bytes_to_write[MAP_DATA_OFFSET + y * 128 + x] = tile & 0xFF
             
             with open(filepath, 'wb') as f:
                 f.write(bytes_to_write)
@@ -111,13 +119,20 @@ class MapData:
                 c = unit_c[i]
                 d = unit_d[i]
                 h = unit_h[i]
-                if x < 128 and y < 64 and t != 0:
-                    self.unit_positions[i] = (x, y, t, a, b, c, d, h)
-                    if t == 1:
-                        print(f"Player (Unit {i}): Position ({x}, {y}), Type: {t}, A: {a}, B: {b}, C: {c}, D: {d}, Health: {h}")
-                        self.unit_positions[0] = (x, y, t, a, b, c, d, h)  # Assign player to Unit 0
-                    else:
-                        print(f"Unit {i}: Position ({x}, {y}), Type: {t}, A: {a}, B: {b}, C: {c}, D: {d}, Health: {h}")
+                self.unit_positions[i] = (x, y, t, a, b, c, d, h)
+                if t == 1:
+                    print(f"Player (Unit {i}): Position ({x}, {y}), Type: {t}, A: {a}, B: {b}, C: {c}, D: {d}, Health: {h}")
+                    #self.unit_positions[0] = (x, y, t, a, b, c, d, h)  # Assign player to Unit 0
+                else:
+                    print(f"Unit {i}: Position ({x}, {y}), Type: {t}, A: {a}, B: {b}, C: {c}, D: {d}, Health: {h}")
+                
+                #if x < 128 and y < 64 and t != 0:
+                #    self.unit_positions[i] = (x, y, t, a, b, c, d, h)
+                #    if t == 1:
+                #        print(f"Player (Unit {i}): Position ({x}, {y}), Type: {t}, A: {a}, B: {b}, C: {c}, D: {d}, Health: {h}")
+                #        self.unit_positions[0] = (x, y, t, a, b, c, d, h)  # Assign player to Unit 0
+                #    else:
+                #        print(f"Unit {i}: Position ({x}, {y}), Type: {t}, A: {a}, B: {b}, C: {c}, D: {d}, Health: {h}")
             
             # Process map tiles
             print("\n--- Loading Map Tiles ---")
