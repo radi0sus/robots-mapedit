@@ -57,18 +57,17 @@ The project is organized into several Python modules, each with specific respons
 ### Basic Controls
 
 - **Left-click**: Place the selected tile
-- **Right-click**: Erase tile (set to empty)
+- **Right-click**: Add unit 
 - **Arrow keys**: Navigate around the map
 - **Ctrl+Z**: Undo
 - **Ctrl+Y**: Redo
-- **Edit Units**: The key for adding or deleting units and change their properties
 
 ### Interface Elements
 
 - **Top-left panel**: Map view with grid
 - **Top-right panel**: Tile palette for selection
 - **Bottom-right panel**: Controls for loading/saving and options
-- **Edit Units**: The key for adding or deleting units and change their properties
+- **Edit Units**:  Add or delete units and change their properties
 
 ### Show units
 
