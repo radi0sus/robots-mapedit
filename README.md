@@ -47,9 +47,8 @@ The project is organized into several Python modules, each with specific respons
 7. Download tiles (`.png`) from: [https://github.com/zeropolis79/PETSCIIRobots-Amiga/tree/main/Amiga](https://github.com/zeropolis79/PETSCIIRobots-Amiga/tree/main/Amiga)
 8. Copy the tiles in the folder `tiles`
 9. Download levels from: [https://github.com/zeropolis79/PETSCIIRobots-Pet/tree/main](https://github.com/zeropolis79/PETSCIIRobots-Pet/tree/main) or from other level locations (see *Map Files*).
-10. Rename `level-a` to `level-a.bin` and so on
-11. In case of `venv`: `source /path-to-program/bin/activate`
-12. Run the application: `python3 main.py`
+10. In case of `venv`: `source /path-to-program/bin/activate`
+11. Run the application: `python3 main.py`
 
 ## Usage
 
@@ -89,8 +88,8 @@ Example `D38-10-3`: Door with Unit ID 17, Type 10, needs Key 3
 - Magenta Frames: Items
 - Grey Frames: Unknown Type
 
-- You should read the [Map Editor Intstructions](https://www.the8bitguy.com/pr-mapedit/). 
-- If a unit slot is full, no other unit of the same type can be added. For example, if there are already 16 items, item 17 cannot be added.
+- You should read the [Map Editor Instructions](https://www.the8bitguy.com/pr-mapedit/). 
+- If a unit slot is full (no unused Unit IDs), no other unit of the same type can be added. For example, if there are already 16 items, item 17 cannot be added.
 - If there are empty slots (not used Unit IDs) in unit types, you can add a unit of the same type. For example, a raft in the "doors" type. Empty slots can be identified by *Unknown (0)....*
 - It is also possible to delete a unit to free up a Unit ID.
 - To add a unit at a specific position:
@@ -100,20 +99,19 @@ Example `D38-10-3`: Door with Unit ID 17, Type 10, needs Key 3
   4. Add Unit.
   5. Insert the Unit ID.
   6. Change the type and properties.
-  7. Save the changes
+  7. Save the changes.
   8. Save the map.
 - To change properties of a unit:
   1. Select the unit in the Edit Units window
-  2. Change the type (if you like). But it must be of the same type, so replacing a robot with a robot is possible.
+  2. Change the type (if you like). But it must be of the same kind, so replacing a robot with a robot is possible.
   3. Change the parameters. More ammo, more health or less...
-  4. Save the changes
+  4. Save the changes.
   5. Save the map.
      
 ### Map Files
 
 - The application loads maps (levels) in a binary format compatible with PETSCII Robots.
 - Check the `MAP_DATA_OFFSET` in `constants.py`, as it can differ across versions (I found 770 and 514 for two versions of the X16 robots). In case of a mismatch, units—such as hidden objects or robots—may appear shifted. However, the issue can be even more subtle.
-- Check `MAP_DATA_OFFSET` in `constants.py`. It can be different for differnt versions.
 - Warning! Saving the level may destroy it. Make a backup copy of the level before editing.
 
 ## Directory Structure
