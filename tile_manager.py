@@ -1,3 +1,4 @@
+# tile manager
 import os
 from PyQt5.QtGui import QImage, QPixmap
 
