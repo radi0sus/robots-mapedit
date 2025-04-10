@@ -17,7 +17,7 @@ The project is organized into several Python modules, each with specific respons
 - **unit_editor.py**: Add or delete units, change properties
 - **constants.py**: Shared constants and settings
 
-## Features (not yet implemented)
+## Features 
 
 - Edit maps 
 - Support for animated tiles (water, flags, etc.)
