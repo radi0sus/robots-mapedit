@@ -254,7 +254,8 @@ class TileMapEditor(QWidget):
     
     def save_binary_map(self):
         """Save the map to a binary file"""
-        path, _ = QFileDialog.getSaveFileName(self, "Save Binary Map", "", "Binary Files (*.bin)")
+        #path, _ = QFileDialog.getSaveFileName(self, "Save Binary Map", "", "Binary Files (*.bin)")
+        path, _ = QFileDialog.getSaveFileName(self, "Save Binary Map", "", "Map Files (*)")
         if path:
             if self.map_data.save_binary(path):
                 self.info_label.setText(f"Map saved to {os.path.basename(path)}")
@@ -263,7 +264,8 @@ class TileMapEditor(QWidget):
     
     def load_binary_map_dialog(self):
         """Open dialog to load a binary map file"""
-        path, _ = QFileDialog.getOpenFileName(self, "Load Binary Map", "", "Binary Files (*.bin)")
+        #path, _ = QFileDialog.getOpenFileName(self, "Load Binary Map", "", "Binary Files (*.bin)")
+        path, _ = QFileDialog.getOpenFileName(self, "Load Binary Map", "", "Map Files (*)")
         if path:
             self.load_binary_map(path)
     
@@ -275,6 +277,7 @@ class TileMapEditor(QWidget):
             self.map_window_y = 0
             self.update_map_display()
             self.info_label.setText(f"Map loaded from {os.path.basename(filepath)}")
+            self.setWindowTitle(f"{os.path.basename(filepath)}")
         else:
             self.info_label.setText(f"Error loading map")
     
