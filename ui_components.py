@@ -155,6 +155,42 @@ class MapCanvasWidget(QLabel):
         # Restore original font
         painter.setFont(original_font)
     
+    def contextMenuEvent(self, event):
+        """Show context menu when right-clicking on the map"""
+        # Get map coordinates from screen position
+        x = event.pos().x() // self.tile_size + self.window_x
+        y = event.pos().y() // self.tile_size + self.window_y
+        
+        from PyQt5.QtWidgets import QMenu, QAction
+        
+        # Create context menu
+        menu = QMenu(self)
+        add_unit_action = QAction(f"Add Unit at ({x},{y})", self)
+        add_unit_action.triggered.connect(lambda: self.place_unit_at(x, y))
+        menu.addAction(add_unit_action)
+        
+        # Show menu
+        menu.exec_(event.globalPos())
+
+    def place_unit_at(self, x, y):
+        """Open unit editor to place a unit at specific coordinates"""
+        from unit_editor import UnitEditor
+        
+        editor = UnitEditor(self.parent_editor, self.parent_editor.map_data)
+        
+        # Set coordinates in Add Unit tab
+        editor.new_x_spin.setValue(x)
+        editor.new_y_spin.setValue(y)
+        
+        # Switch to Add Unit tab
+        editor.tabs.setCurrentIndex(1)
+        
+        # Show the dialog
+        editor.exec_()
+        
+        # Update the map display
+        self.parent_editor.update_map_display()    
+    
     def update_canvas(self, map_data, tile_manager, unit_positions, anim_state, show_animations, show_unit_overlay):
         """Redraw the map with current tiles and units"""
         # Set the size based on the visible window
@@ -214,7 +250,7 @@ class MapCanvasWidget(QLabel):
                 continue
             
             # Different styles for different unit types
-            if unit_id == 0:  # Player
+            if unit_type == 1:  # Player
                 fill_color = QColor(PLAYER_COLOR)  
                 fill_color.setAlpha(128)
                 painter.fillRect(screen_x + 2, screen_y + 2, 
@@ -222,7 +258,7 @@ class MapCanvasWidget(QLabel):
                 self.draw_centered_text(
                 painter,
                 screen_x, screen_y,
-                self.tile_size, self.tile_size, f"P") 
+                self.tile_size, self.tile_size, f"P{unit_id}-{unit_type}") 
                 #painter.drawText(screen_x + 5 + 17, screen_y + 16, f"P{unit_id}-{unit_type}")
             elif 3 <= unit_id <= 27:  # Robots
                 #painter.setPen(QColor(ROBOT_COLOR))
@@ -233,7 +269,7 @@ class MapCanvasWidget(QLabel):
                 self.draw_centered_text(
                 painter,
                 screen_x, screen_y,
-                self.tile_size, self.tile_size, f"R{unit_id-3}-{unit_type}") 
+                self.tile_size, self.tile_size, f"R{unit_id}-{unit_type}") 
                 #painter.drawText(screen_x + 5 + 17, screen_y + 16, f"R{unit_id-3}-{unit_type}")
             elif 32 <= unit_id <= 47:  # Doors
                 #painter.setPen(QColor(DOOR_COLOR))
@@ -244,7 +280,7 @@ class MapCanvasWidget(QLabel):
                 self.draw_centered_text(
                 painter,
                 screen_x, screen_y,
-                self.tile_size, self.tile_size, f"D{unit_id-34}-{unit_type}-{c}") 
+                self.tile_size, self.tile_size, f"D{unit_id}-{unit_type}-{c}") 
             elif 48 <= unit_id <= 63:  # Items
                 #painter.setPen(QColor(ITEM_COLOR))
                 #painter.drawEllipse(screen_x + 4, screen_y + 4, 
@@ -258,18 +294,18 @@ class MapCanvasWidget(QLabel):
                      self.draw_centered_text(
                     painter,
                     screen_x, screen_y,
-                    self.tile_size, self.tile_size, f"I{unit_id-50}-{unit_type}-{a}")
+                    self.tile_size, self.tile_size, f"I{unit_id}-{unit_type}-{a}")
                 elif 128 < unit_type <= 134:
                 # if weapon or item
                     self.draw_centered_text(
                     painter,
                     screen_x, screen_y,
-                    self.tile_size, self.tile_size, f"I{unit_id-50}-{unit_type}-{a}")
+                    self.tile_size, self.tile_size, f"I{unit_id}-{unit_type}-{a}")
                 else:
                     self.draw_centered_text(
                     painter,
                     screen_x, screen_y,
-                    self.tile_size, self.tile_size, f"I{unit_id-50}-{unit_type}")
+                    self.tile_size, self.tile_size, f"I{unit_id}-{unit_type}")
                 
                                 
                 #painter.drawText(screen_x + 5, screen_y + 16, f"I{unit_id-51}-{unit_type}")
@@ -278,13 +314,13 @@ class MapCanvasWidget(QLabel):
     #    """Handle mouse press for painting tiles"""
     #    if hasattr(self.parent(), "handle_canvas_click"):
     #        self.parent().handle_canvas_click(event)
-    def mousePressEvent(self, event):
-        """Handle mouse press for painting tiles"""
-        #if hasattr(self.parent(), "handle_canvas_click"):
-        #    self.parent().handle_canvas_click(event)
-        # Add direct call to make sure it's invoked
-        if hasattr(self.parent_editor, "handle_canvas_click"):
-            self.parent_editor.handle_canvas_click(event)
+    #def mousePressEvent(self, event):
+    #    """Handle mouse press for painting tiles"""
+    #    #if hasattr(self.parent(), "handle_canvas_click"):
+    #    #    self.parent().handle_canvas_click(event)
+    #    # Add direct call to make sure it's invoked
+    #    if hasattr(self.parent_editor, "handle_canvas_click"):
+    #        self.parent_editor.handle_canvas_click(event)
     
     def mouseMoveEvent(self, event):
         """Handle mouse movement for drag painting and position display"""
@@ -292,3 +328,26 @@ class MapCanvasWidget(QLabel):
         #    self.parent().handle_canvas_move(event)
         if hasattr(self.parent_editor, "handle_canvas_move"):
             self.parent_editor.handle_canvas_move(event)
+    
+    def mousePressEvent(self, event):
+        """Handle mouse press for painting tiles and picking"""
+        if event.button() == Qt.RightButton:
+            # Middle button: pick tile at this position
+            x = event.pos().x() // self.tile_size + self.window_x
+            y = event.pos().y() // self.tile_size + self.window_y
+            
+            # Pick the tile at this location
+            if 0 <= x < 128 and 0 <= y < 64:
+                tile_id = self.parent_editor.map_data.get_tile(x, y)
+                if tile_id != -1:
+                    # Set as selected tile in palette
+                    self.parent_editor.palette.set_selected_tile(tile_id)
+        else:
+            # Let parent handle left button for tile placement
+            if hasattr(self.parent_editor, "handle_canvas_click"):
+                self.parent_editor.handle_canvas_click(event)
+                
+   # def mouseMoveEvent(self, event):
+   #     """Handle mouse movement for drag painting and position display"""
+   #     if hasattr(self.parent_editor, "handle_canvas_move"):
+   #         self.parent_editor.handle_canvas_move(event)
