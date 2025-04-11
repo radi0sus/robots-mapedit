@@ -3,7 +3,7 @@ from PyQt5.QtWidgets import QLabel, QScrollArea
 from PyQt5.QtGui import QImage, QPixmap, QPainter, QColor, QFont
 from PyQt5.QtCore import Qt
 
-from constants import TILE_SIZE, GRID_COLOR, SELECTION_COLOR
+from constants import TILE_SIZE, GRID_COLOR, SELECTION_COLOR, TILE_FONT_COLOR, SHOW_TILE_NUMBER
 from constants import PLAYER_COLOR, ROBOT_COLOR, DOOR_COLOR, ITEM_COLOR
 
 class TilesetPaletteWidget(QLabel):
@@ -33,9 +33,25 @@ class TilesetPaletteWidget(QLabel):
                 
             x = (i % self.cols) * self.tile_size
             y = (i // self.cols) * self.tile_size
-            
+
             # Draw tile
             painter.drawPixmap(x, y, tile)
+            
+            # Draw the index number on each tile
+            # Color and SHOW_TILE_NUMBER
+            if i % 5 == 0 and SHOW_TILE_NUMBER: 
+                painter.setRenderHint(QPainter.TextAntialiasing)
+                painter.setPen(QColor(*TILE_FONT_COLOR))  # White text
+                bold_font = QFont("Arial", 10)
+                bold_font.setWeight(QFont.Bold)
+                painter.setFont(bold_font)
+                #painter.setFont(QFont("Arial", 8))
+            
+                # Draw with black outline for better visibility
+                painter.setPen(QColor(0, 0, 0, 255))
+                painter.drawText(x+2, y+12, str(i))
+                painter.setPen(QColor(*TILE_FONT_COLOR))
+                painter.drawText(x+1, y+11, str(i))
             
             # Draw grid lines around all tiles
             painter.setPen(QColor(*GRID_COLOR))
@@ -77,7 +93,6 @@ class TilesetPaletteWidget(QLabel):
         x = event.pos().x() // self.tile_size
         y = event.pos().y() // self.tile_size
         index = y * self.cols + x
-        
         if 0 <= index < len(self.tiles):
             self.selected_tile = index
             self.update_palette(self.tiles)
