@@ -353,7 +353,7 @@ class UnitEditor(QDialog):
             x, y, unit_type, a, b, c, d, h = self.unit_positions[unit_id]
             type_name = UnitTypeInfo.get_type_name(unit_type)
             
-            unit_button = QPushButton(f"Unit ID: {unit_id}: {type_name} ({unit_id}) at ({x},{y})")
+            unit_button = QPushButton(f"Unit ID {unit_id}: {type_name} ({unit_type}) at ({x},{y})")
             unit_button.setStyleSheet(f"text-align: left; border: 1px solid {UnitTypeInfo.get_unit_color(unit_id, unit_type)};")
             unit_button.clicked.connect(lambda checked, uid=unit_id: self.select_unit(uid))
             
