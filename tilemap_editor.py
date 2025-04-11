@@ -61,7 +61,11 @@ class TileMapEditor(QWidget):
     def open_unit_editor(self):
         """Open the unit editor dialog"""
         editor = UnitEditor(self, self.map_data)
+        # switch focus
+        #editor.show()
+        # unit editor has focus until close 
         editor.exec_()
+        #
         # Update the display when the dialog closes
         self.update_map_display()
         
@@ -190,7 +194,8 @@ class TileMapEditor(QWidget):
     def toggle_unit_overlay(self, state):
         """Enable or unit overlay"""
         self.canvas.show_unit_overlay = bool(state)
-        self.canvas.update()
+        self.update_map_display() 
+        #self.canvas.update()
         #self.update()  # Trigger a repaint
     
     def on_tile_selected(self, index):
