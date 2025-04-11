@@ -37,10 +37,28 @@ class TilesetPaletteWidget(QLabel):
             # Draw tile
             painter.drawPixmap(x, y, tile)
             
-            # Draw selection box around selected tile
-            if i == self.selected_tile:
+            # Draw grid lines around all tiles
+            painter.setPen(QColor(*GRID_COLOR))
+    
+            # Draw horizontal grid lines
+            for y in range(rows + 1):
+                painter.drawLine(0, y * self.tile_size, self.cols * self.tile_size, y * self.tile_size)
+    
+            # Draw vertical grid lines
+            for x in range(self.cols + 1):
+                painter.drawLine(x * self.tile_size, 0, x * self.tile_size, rows * self.tile_size)
+    
+            # Draw selection box around selected tile - draw this AFTER the grid to make it visible
+            if 0 <= self.selected_tile < len(self.tiles):
+                x = (self.selected_tile % self.cols) * self.tile_size
+                y = (self.selected_tile // self.cols) * self.tile_size
                 painter.setPen(QColor(SELECTION_COLOR))
                 painter.drawRect(x, y, self.tile_size - 1, self.tile_size - 1)
+    
+            # Draw selection box around selected tile
+            #if i == self.selected_tile:
+            #    painter.setPen(QColor(SELECTION_COLOR))
+            #    painter.drawRect(x, y, self.tile_size - 1, self.tile_size - 1)
         
         painter.end()
         
@@ -187,7 +205,12 @@ class MapCanvasWidget(QLabel):
         editor.tabs.setCurrentIndex(1)
         
         # Show the dialog
+        # switch focus
+        #editor.show()
+        # unit editor has focus until close 
         editor.exec_()
+        
+        
         
         # Update the map display
         self.parent_editor.update_map_display()    
