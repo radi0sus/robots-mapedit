@@ -21,6 +21,8 @@ DEFAULT_NAV_SPEED = 1
 PALETTE_COLS = 16
 GRID_COLOR = (200, 200, 200, 100)
 SELECTION_COLOR = "red"
+TILE_FONT_COLOR = (0, 255, 0, 255)
+SHOW_TILE_NUMBER = True
 
 # Unit overlay colors
 PLAYER_COLOR = "blue"
@@ -44,5 +46,5 @@ UNIT_H_OFFSET      = 0x01C0 + BASE_ADDRESS
 # MAP_DATA_OFFSET = 770  # PET:770, Amiga: 768, X16-Robots-a-version?: 770 - 128 - 128
 # WARNING MAP_DATA_OFFSET is crucial 
 # Check if the item location match
-MAP_DATA_OFFSET = 770 
+MAP_DATA_OFFSET = 770 - 128 -128
 # MAP_DATA_OFFSET = 0x0200
