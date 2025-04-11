@@ -1,4 +1,4 @@
-# Tile Map Editor
+# Robots Map Editor
 
 A PyQt5-based editor for creating and editing tile-based maps, with support for animated tiles and various unit types. This application is designed for editing maps compatible with game engines like [PETSCII Robots](https://www.the8bitguy.com/25753/petscii-robot-shareware-available/).
 
