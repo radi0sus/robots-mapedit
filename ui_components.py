@@ -261,7 +261,7 @@ class MapCanvasWidget(QLabel):
                 screen_x, screen_y,
                 self.tile_size, self.tile_size, f"P{unit_id}-{unit_type}") 
                 #painter.drawText(screen_x + 5 + 17, screen_y + 16, f"P{unit_id}-{unit_type}")
-            elif 3 <= unit_id <= 27:  # Robots
+            elif 1 <= unit_id <= 27:  # Robots
                 #painter.setPen(QColor(ROBOT_COLOR))
                 fill_color = QColor(ROBOT_COLOR)  
                 fill_color.setAlpha(128)
