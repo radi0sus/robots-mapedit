@@ -85,7 +85,7 @@ Example `D38-10-3`: Door with Unit ID 17, Type 10, needs Key 3
 - Red Frame: Robots
 - Green Frame: Doors, Rafts, ...
 - Magenta Frame: Items
-- Grey Frames: Unknown Type
+- Grey Frame: Unknown Type
 
 - You should read the [Map Editor Instructions](https://www.the8bitguy.com/pr-mapedit/). 
 - If a unit slot is full (no unused Unit IDs), no other unit of the same type can be added. For example, if there are already 16 items, item 17 cannot be added.
