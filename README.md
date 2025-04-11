@@ -6,19 +6,6 @@ A PyQt5-based editor for creating and editing tile-based maps, with support for 
 <img src='gfx/Screenshot2.png' width='800' alt='Screenshot' align='center'>
 <img src='gfx/Screenshot3.png' width='800' alt='Screenshot' align='center'>
 
-## Project Structure
-
-The project is organized into several Python modules, each with specific responsibilities:
-
-- **main.py**: The entry point that runs the application
-- **tilemap_editor.py**: Main editor class that coordinates all components
-- **map_data.py**: Classes for map data management and serialization
-- **tile_manager.py**: Handles tile loading and organization
-- **animation.py**: Manages tile animation states and timing
-- **ui_components.py**: UI elements specific to this application
-- **unit_editor.py**: Add or delete units, change properties
-- **constants.py**: Shared constants and settings
-
 ## Features 
 
 - Edit existing maps 
@@ -114,8 +101,38 @@ Example `D38-10-3`: Door with Unit ID 17, Type 10, needs Key 3
 ### Map Files
 
 - The application loads maps (levels) in a binary format compatible with PETSCII Robots.
-- Check the `MAP_DATA_OFFSET` in `constants.py`, as it can differ across versions (I found 770 and 514 for two versions of the X16 robots). In case of a mismatch, units—such as hidden objects or robots—may appear shifted. However, the issue can be even more subtle.
+- **IMPORTANT!** Check the `MAP_DATA_OFFSET` in `constants.py`, as it can differ across versions (I found 770 and 514 for two versions of the X16 robots). In case of a mismatch, units—such as hidden objects or robots—may appear shifted. However, the issue can be even more subtle.
+- Check the console output of the program. Output 1:
+```
+  Map size: 128x64
+  Map data starts at offset: 770
+  Expected map size: 8192 bytes
+  Actual data after offset: 8192 bytes
+```
+two times `8192` bytes is okay.  
+
+ Output 2:
+```
+  Map size: 128x64
+  Map data starts at offset: 770
+  Expected map size: 8192 bytes
+  Actual data after offset: 7936 bytes
+```
+ `8192` and `7936` bytes, `MAP_DATA_OFFSET` is probably wrong.
 - Warning! Saving the level may destroy it. Make a backup copy of the level before editing.
+
+## Project Structure
+
+The project is organized into several Python modules:
+
+- **main.py**: The entry point that runs the application
+- **tilemap_editor.py**: Main editor class that coordinates all components
+- **map_data.py**: Classes for map data management and serialization
+- **tile_manager.py**: Handles tile loading and organization
+- **animation.py**: Manages tile animation states and timing
+- **ui_components.py**: UI elements specific to this application
+- **unit_editor.py**: Add or delete units, change properties
+- **constants.py**: Shared constants and settings
 
 ## Directory Structure
 
