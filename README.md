@@ -5,8 +5,6 @@ A PyQt5-based editor for creating and editing tile-based maps, with support for 
 <img src='gfx/Screenshot1.png' width='800' alt='Screenshot' align='center'>
 <img src='gfx/Screenshot2.png' width='800' alt='Screenshot' align='center'>
 <img src='gfx/Screenshot3.png' width='800' alt='Screenshot' align='center'>
-<img src='gfx/ex1.gif' width='600' alt='Screenshot' align='center'>
-<img src='gfx/ex2.gif' width='600' alt='Screenshot' align='center'>
 
 ## Project Structure
 
@@ -86,7 +84,7 @@ Example `D38-10-3`: Door with Unit ID 17, Type 10, needs Key 3
 - Blue Frame: Player
 - Red Frame: Robots
 - Green Frame: Doors, Rafts, ...
-- Magenta Frames: Items
+- Magenta Frame: Items
 - Grey Frames: Unknown Type
 
 - You should read the [Map Editor Instructions](https://www.the8bitguy.com/pr-mapedit/). 
@@ -108,7 +106,11 @@ Example `D38-10-3`: Door with Unit ID 17, Type 10, needs Key 3
   3. Change the parameters. More ammo, more health or less...
   4. Save the changes.
   5. Save the map.
-     
+<div>   
+  <img src='gfx/edit1.png' width='400' alt='Screenshot' align='left'>
+  <img src='gfx/edit2.png' width='400' alt='Screenshot' align='center'>
+</div>
+  
 ### Map Files
 
 - The application loads maps (levels) in a binary format compatible with PETSCII Robots.
@@ -131,4 +133,7 @@ tile-map-editor/
     └── animtiles.png     # Animated tile images
 ```
 
+## Examples
 
+<img src='gfx/ex1.gif' width='600' alt='Screenshot' align='center'>
+<img src='gfx/ex2.gif' width='600' alt='Screenshot' align='center'>
