@@ -23,7 +23,7 @@ The project is organized into several Python modules, each with specific respons
 
 ## Features 
 
-- Edit maps 
+- Edit existing maps 
 - Support for animated tiles (water, flags, etc.)
 - Unit placement (player, robots, items)
 - Binary map file format loading and saving
