@@ -1,5 +1,7 @@
 import copy
-from constants import DEFAULT_MAP_WIDTH, DEFAULT_MAP_HEIGHT, MAP_DATA_OFFSET
+from constants import (DEFAULT_MAP_WIDTH, DEFAULT_MAP_HEIGHT, MAP_DATA_OFFSET, 
+                       UNIT_TYPES_OFFSET, UNIT_X_OFFSET, UNIT_Y_OFFSET, UNIT_A_OFFSET, 
+                       UNIT_B_OFFSET, UNIT_C_OFFSET, UNIT_D_OFFSET, UNIT_H_OFFSET)
 
 class MapData:
     """Manages the map data and provides undo/redo functionality"""
@@ -53,9 +55,6 @@ class MapData:
         return False
     
     def save_binary(self, filepath):
-        from constants import (MAP_DATA_OFFSET, UNIT_TYPES_OFFSET, UNIT_X_OFFSET, UNIT_Y_OFFSET, 
-                              UNIT_A_OFFSET, UNIT_B_OFFSET, UNIT_C_OFFSET, UNIT_D_OFFSET, UNIT_H_OFFSET, 
-                              BASE_ADDRESS)
         """Save map to binary file format"""
         try:
             # PETSCII Robots format with units
@@ -112,9 +111,6 @@ class MapData:
     
     def load_binary(self, filepath):
         """Load map from binary file format"""
-        from constants import (MAP_DATA_OFFSET, UNIT_TYPES_OFFSET, UNIT_X_OFFSET, UNIT_Y_OFFSET, 
-                              UNIT_A_OFFSET, UNIT_B_OFFSET, UNIT_C_OFFSET, UNIT_D_OFFSET, UNIT_H_OFFSET,  
-                               BASE_ADDRESS)
         
         try:
             with open(filepath, 'rb') as f:
