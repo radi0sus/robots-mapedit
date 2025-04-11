@@ -80,7 +80,7 @@ class TileMapEditor(QWidget):
         self.scroll_area = QScrollArea()
         self.scroll_area.setWidget(self.canvas)
         self.scroll_area.setWidgetResizable(False)
-        
+               
         # Tile palette
         self.palette = TilesetPaletteWidget(parent=self)
         
