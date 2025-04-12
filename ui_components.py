@@ -4,12 +4,12 @@ from PyQt5.QtGui import QImage, QPixmap, QPainter, QColor, QFont
 from PyQt5.QtCore import Qt
 
 from constants import TILE_SIZE, GRID_COLOR, SELECTION_COLOR, TILE_FONT_COLOR, SHOW_TILE_NUMBER
-from constants import PLAYER_COLOR, ROBOT_COLOR, DOOR_COLOR, ITEM_COLOR
+from constants import PLAYER_COLOR, ROBOT_COLOR, DOOR_COLOR, ITEM_COLOR, PALETTE_COLS
 
 class TilesetPaletteWidget(QLabel):
     """Widget showing the available tiles that can be selected"""
     
-    def __init__(self, cols=16, parent=None):
+    def __init__(self, cols=PALETTE_COLS, parent=None):
         super().__init__(parent)
         self.cols = cols
         self.selected_tile = 0
