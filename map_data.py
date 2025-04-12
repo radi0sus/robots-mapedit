@@ -174,7 +174,8 @@ class MapData:
                 for x in range(self.width):
                     if index < len(binary_data):
                         tile_value = binary_data[index]
-                        if tile_value > 0:
+                        #if tile_value > 0:
+                        if tile_value >= 0:
                             self.data[y][x] = tile_value
                     index += 1
             
