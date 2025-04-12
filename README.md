@@ -123,6 +123,8 @@ two times `8192` bytes is okay.
   Actual data after offset: 7936 bytes
 ```
  `8192` and `7936` bytes, `MAP_DATA_OFFSET` is probably wrong.
+- Loading a level file and saving it without any edits should result in identical files.
+- This can be verified using tools like [HexFiend](https://hexfiend.com), for example.
 - Warning! Saving the level may destroy it. Make a backup copy of the level before editing.
 
 ## Project Structure
