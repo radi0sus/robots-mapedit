@@ -48,9 +48,16 @@ UNIT_D_OFFSET      = 0x0180 #+ BASE_ADDRESS
 UNIT_H_OFFSET      = 0x01C0 #+ BASE_ADDRESS
 UNIT_BLOCK_SIZE    = 0x42
 # Fill region from units end to map begin with what:
-# it seems to be 0xAA, except for that special X16 version
+# it seems to be 0xAA (except for that special X16 version)
+# or 0x00, depends on the level
+# maybe this is not important 
+#FILL_VALUE = 0x00
 FILL_VALUE = 0xAA
-# MAP_DATA_OFFSET = 770  # PET:770, Amiga: 768, X16-Robots-a-version?: 770 - 128 - 128
+# MAP_DATA_OFFSET = 770 
+# PET, C64x:770, 
+# Amiga, MS-DOS(?): 768 
+# X16-Robots (from 8-Bit-Guy Homepage): 770 - 128 - 128
+# X16-Robots (from GitHub): 770 (?)
 # WARNING MAP_DATA_OFFSET is crucial 
 # Check if the item location match
 MAP_DATA_OFFSET = 770 #- 128 -128
