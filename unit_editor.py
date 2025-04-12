@@ -150,13 +150,14 @@ class UnitTypeInfo:
         """Get color for a unit based on its ID and type"""
         if unit_type == 1:  # Player
             return PLAYER_COLOR
-        elif 1 <= unit_id <= 1 + 26:  # Robots
+        elif 3 <= unit_id <= 3 + 26:  # Robots
             return ROBOT_COLOR
-        elif 32 <= unit_id <= 32 + 15:  # Doors
+        elif 34 <= unit_id <= 34 + 15:  # Doors
             return DOOR_COLOR
-        elif 48 <= unit_id <= 48 + 15:  # Items
+        elif 50 <= unit_id <= 50 + 15:  # Items
             return ITEM_COLOR
         return "gray"  # Default
+
 
 #    @staticmethod
 #    def get_unit_color(unit_id, unit_type):
