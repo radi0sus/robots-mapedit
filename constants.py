@@ -21,7 +21,7 @@ DEFAULT_NAV_SPEED = 1
 ANIM_TILES_NAME = "animtiles.png"
 
 # UI settings
-PALETTE_COLS = 16
+PALETTE_COLS = 15
 GRID_COLOR = (200, 200, 200, 100)
 SELECTION_COLOR = "red"
 TILE_FONT_COLOR = (0, 255, 0, 255)
@@ -60,5 +60,5 @@ FILL_VALUE = 0xAA
 # X16-Robots (from GitHub): 770 (?)
 # WARNING MAP_DATA_OFFSET is crucial 
 # Check if the item location match
-MAP_DATA_OFFSET = 770 #- 128 -128
+MAP_DATA_OFFSET = 770 # - 128 -128
 # MAP_DATA_OFFSET = 0x0200
