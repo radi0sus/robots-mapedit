@@ -64,7 +64,7 @@ A PyQt5-based editor for editing tile-based maps, with support for animated tile
 - D: Doors and Transport ($\textcolor{green}{\textrm{green ■}}$)
 - I: Items ($\textcolor{magenta}{\textrm{magenta ■}}$)
 
-Example `R17-2`   : Robot with Unit ID 17, Type 2
+Example `R17-2`   : Robot with Unit ID 17, Type 2  
 Example `D38-10-3`: Door with Unit ID 17, Type 10, needs Key 3
 
 ### Edit units
@@ -106,8 +106,9 @@ Example `D38-10-3`: Door with Unit ID 17, Type 10, needs Key 3
 - The application loads maps (levels) in a binary format compatible with PETSCII Robots.
 - Slight differences in the level files across different systems or versions can be resolved by editing `constants.py`.
 - **"IMPORTANT!"** Check the `MAP_DATA_OFFSET` in `constants.py`, as it can vary between versions (I found 770 and 514 for two versions of the X16 robots).
-  In case of a mismatch, units—such as hidden objects or robots—may appear shifted, though the issue can be even more subtle.
-- Check the console output of the program. Output 1:
+  In case of a mismatch, units — such as hidden objects or robots — may appear shifted, though the issue can be even more subtle.
+- Check the console output of the program.  
+Example output 1:
 ```
   Map size: 128x64
   Map data starts at offset: 770
@@ -116,7 +117,7 @@ Example `D38-10-3`: Door with Unit ID 17, Type 10, needs Key 3
 ```
 two times `8192` bytes is okay.  
 
- Output 2:
+ Example output 2:
 ```
   Map size: 128x64
   Map data starts at offset: 770
