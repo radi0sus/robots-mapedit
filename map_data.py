@@ -1,7 +1,8 @@
 import copy
 from constants import (DEFAULT_MAP_WIDTH, DEFAULT_MAP_HEIGHT, MAP_DATA_OFFSET, 
                        UNIT_TYPES_OFFSET, UNIT_X_OFFSET, UNIT_Y_OFFSET, UNIT_A_OFFSET, 
-                       UNIT_B_OFFSET, UNIT_C_OFFSET, UNIT_D_OFFSET, UNIT_H_OFFSET)
+                       UNIT_B_OFFSET, UNIT_C_OFFSET, UNIT_D_OFFSET, UNIT_H_OFFSET,
+                       UNIT_BLOCK_SIZE, FILL_VALUE)
 
 class MapData:
     """Manages the map data and provides undo/redo functionality"""
@@ -59,37 +60,38 @@ class MapData:
         try:
             # PETSCII Robots format with units
             #bytes_to_write = bytearray(770 + 128 * 64)  # Initialize with zeros
-            bytes_to_write = bytearray(MAP_DATA_OFFSET + 128 * 64) 
+            bytes_to_write = bytearray([FILL_VALUE] * (MAP_DATA_OFFSET + 128 * 64)) 
             
             # Write the header bytes first
             bytes_to_write[0x0000:0x0002] = self.header_bytes
+            #print(self.header_bytes)
             # Write unit data
             for unit_id, (x, y, unit_type, a, b, c, d, h) in self.unit_positions.items():
-                if 0 <= unit_id < 64:
-                    #bytes_to_write[unit_id] = unit_type                              # Unit type
-                    #bytes_to_write[BASE_ADDRESS+0x0040 + unit_id] = x               # X position
-                    #bytes_to_write[BASE_ADDRESS+0x0080 + unit_id] = y               # Y position
-                    #bytes_to_write[BASE_ADDRESS+0x00C0 + unit_id] = a               # Property A
-                    #bytes_to_write[BASE_ADDRESS+0x0100 + unit_id] = b               # Property B
-                    #bytes_to_write[BASE_ADDRESS+0x0140 + unit_id] = c               # Property C
-                    #bytes_to_write[BASE_ADDRESS+0x0180 + unit_id] = d               # Property D
-                    #bytes_to_write[BASE_ADDRESS+0x01C0 + unit_id] = h               # Health
-                    #UNIT_TYPES_OFFSET = UNIT_TYPES_OFFSET + BASE_ADDRESS 
-                    #UNIT_X_OFFSET = UNIT_X_OFFSET + BASE_ADDRESS
-                    #UNIT_Y_OFFSET = UNIT_Y_OFFSET + BASE_ADDRESS
-                    #UNIT_A_OFFSET = UNIT_A_OFFSET + BASE_ADDRESS
-                    #UNIT_B_OFFSET = UNIT_B_OFFSET + BASE_ADDRESS
-                    #UNIT_C_OFFSET = UNIT_C_OFFSET + BASE_ADDRESS
-                    #UNIT_D_OFFSET = UNIT_D_OFFSET + BASE_ADDRESS
-                    #UNIT_H_OFFSET = UNIT_H_OFFSET + BASE_ADDRESS
-                    bytes_to_write[UNIT_TYPES_OFFSET + unit_id] = unit_type  
-                    bytes_to_write[UNIT_X_OFFSET + unit_id] = x               # X position
-                    bytes_to_write[UNIT_Y_OFFSET + unit_id] = y               # Y position
-                    bytes_to_write[UNIT_A_OFFSET + unit_id] = a               # Property A
-                    bytes_to_write[UNIT_B_OFFSET + unit_id] = b               # Property B
-                    bytes_to_write[UNIT_C_OFFSET + unit_id] = c               # Property C
-                    bytes_to_write[UNIT_D_OFFSET + unit_id] = d               # Property D
-                    bytes_to_write[UNIT_H_OFFSET + unit_id] = h               # Health
+            #if 0 <= unit_id < 65:
+                #bytes_to_write[unit_id] = unit_type                              # Unit type
+                #bytes_to_write[BASE_ADDRESS+0x0040 + unit_id] = x               # X position
+                #bytes_to_write[BASE_ADDRESS+0x0080 + unit_id] = y               # Y position
+                #bytes_to_write[BASE_ADDRESS+0x00C0 + unit_id] = a               # Property A
+                #bytes_to_write[BASE_ADDRESS+0x0100 + unit_id] = b               # Property B
+                #bytes_to_write[BASE_ADDRESS+0x0140 + unit_id] = c               # Property C
+                #bytes_to_write[BASE_ADDRESS+0x0180 + unit_id] = d               # Property D
+                #bytes_to_write[BASE_ADDRESS+0x01C0 + unit_id] = h               # Health
+                #UNIT_TYPES_OFFSET = UNIT_TYPES_OFFSET + BASE_ADDRESS 
+                #UNIT_X_OFFSET = UNIT_X_OFFSET + BASE_ADDRESS
+                #UNIT_Y_OFFSET = UNIT_Y_OFFSET + BASE_ADDRESS
+                #UNIT_A_OFFSET = UNIT_A_OFFSET + BASE_ADDRESS
+                #UNIT_B_OFFSET = UNIT_B_OFFSET + BASE_ADDRESS
+                #UNIT_C_OFFSET = UNIT_C_OFFSET + BASE_ADDRESS
+                #UNIT_D_OFFSET = UNIT_D_OFFSET + BASE_ADDRESS
+                #UNIT_H_OFFSET = UNIT_H_OFFSET + BASE_ADDRESS
+                bytes_to_write[UNIT_TYPES_OFFSET + unit_id] = unit_type  
+                bytes_to_write[UNIT_X_OFFSET + unit_id] = x               # X position
+                bytes_to_write[UNIT_Y_OFFSET + unit_id] = y               # Y position
+                bytes_to_write[UNIT_A_OFFSET + unit_id] = a               # Property A
+                bytes_to_write[UNIT_B_OFFSET + unit_id] = b               # Property B
+                bytes_to_write[UNIT_C_OFFSET + unit_id] = c               # Property C
+                bytes_to_write[UNIT_D_OFFSET + unit_id] = d               # Property D
+                bytes_to_write[UNIT_H_OFFSET + unit_id] = h               # Health
             
             # Write map data
             for y in range(min(self.height, 64)):
@@ -120,7 +122,7 @@ class MapData:
             #self.unit_positions = {}
             #header
             self.header_bytes = binary_data[0x0000:0x0002]
-           
+            #print(self.header_bytes)
             # Extract unit data
             #UNIT_TYPES_OFFSET = UNIT_TYPES_OFFSET + BASE_ADDRESS 
             #UNIT_X_OFFSET = UNIT_X_OFFSET + BASE_ADDRESS
@@ -130,17 +132,17 @@ class MapData:
             #UNIT_C_OFFSET = UNIT_C_OFFSET + BASE_ADDRESS
             #UNIT_D_OFFSET = UNIT_D_OFFSET + BASE_ADDRESS
             #UNIT_H_OFFSET = UNIT_H_OFFSET + BASE_ADDRESS
-            unit_types = binary_data[UNIT_TYPES_OFFSET:UNIT_TYPES_OFFSET+0x40]
-            unit_xs = binary_data[UNIT_X_OFFSET:UNIT_X_OFFSET+0x40]
-            unit_ys = binary_data[UNIT_Y_OFFSET:UNIT_Y_OFFSET+0x40]
-            unit_a = binary_data[UNIT_A_OFFSET:UNIT_A_OFFSET+0x40]
-            unit_b = binary_data[UNIT_B_OFFSET:UNIT_B_OFFSET+0x40]
-            unit_c = binary_data[UNIT_C_OFFSET:UNIT_C_OFFSET+0x40]
-            unit_d = binary_data[UNIT_D_OFFSET:UNIT_D_OFFSET+0x40]
-            unit_h = binary_data[UNIT_H_OFFSET:UNIT_H_OFFSET+0x40]
+            unit_types = binary_data[UNIT_TYPES_OFFSET:UNIT_TYPES_OFFSET + UNIT_BLOCK_SIZE]
+            unit_xs = binary_data[UNIT_X_OFFSET:UNIT_X_OFFSET + UNIT_BLOCK_SIZE]
+            unit_ys = binary_data[UNIT_Y_OFFSET:UNIT_Y_OFFSET + UNIT_BLOCK_SIZE]
+            unit_a = binary_data[UNIT_A_OFFSET:UNIT_A_OFFSET + UNIT_BLOCK_SIZE]
+            unit_b = binary_data[UNIT_B_OFFSET:UNIT_B_OFFSET + UNIT_BLOCK_SIZE]
+            unit_c = binary_data[UNIT_C_OFFSET:UNIT_C_OFFSET + UNIT_BLOCK_SIZE]
+            unit_d = binary_data[UNIT_D_OFFSET:UNIT_D_OFFSET + UNIT_BLOCK_SIZE]
+            unit_h = binary_data[UNIT_H_OFFSET:UNIT_H_OFFSET + UNIT_BLOCK_SIZE]
             
             # Process units
-            for i in range(64):
+            for i in range(UNIT_BLOCK_SIZE):
                 x = unit_xs[i]
                 y = unit_ys[i]
                 t = unit_types[i]
