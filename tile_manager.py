@@ -2,6 +2,8 @@
 import os
 from PyQt5.QtGui import QImage, QPixmap
 
+from constants import ANIM_TILES_NAME
+
 class TileManager:
     """Manages tile loading and animation"""
     
@@ -33,6 +35,9 @@ class TileManager:
     
     def scan_tileset_directory(self):
         """Scan the tileset directory for available tilesets"""
+        if not os.path.exists(self.tileset_dir):
+            print(f"Warning: Tileset directory '{self.tileset_dir}' not found.")
+            return []
         self.tileset_files = [f for f in os.listdir(self.tileset_dir) if f.endswith(".png")]
         return self.tileset_files
     
@@ -57,7 +62,7 @@ class TileManager:
         
         return len(self.tiles)
     
-    def load_animated_tileset(self, filename='animtiles.png'):
+    def load_animated_tileset(self, filename = ANIM_TILES_NAME):
         """Load animated tiles from a separate tileset"""
         path = os.path.join(self.tileset_dir, filename)
         if not os.path.exists(path):
