@@ -17,6 +17,9 @@ APP_HEIGHT = 800
 # Navigation settings
 DEFAULT_NAV_SPEED = 1
 
+# Animated tiles filename
+ANIM_TILES_NAME = "animtiles.png"
+
 # UI settings
 PALETTE_COLS = 16
 GRID_COLOR = (200, 200, 200, 100)
@@ -32,19 +35,23 @@ ITEM_COLOR = "magenta"
 
 # Map binary file offsets
 # There seem to be a two byte header before the player unit
-BASE_ADDRESS = 0x0002
+#BASE_ADDRESS = 0x0002
+#BASE_ADDRESS = 0x0000
 
-UNIT_TYPES_OFFSET  = 0x0000 + BASE_ADDRESS
-UNIT_X_OFFSET      = 0x0040 + BASE_ADDRESS
-UNIT_Y_OFFSET      = 0x0080 + BASE_ADDRESS
-UNIT_A_OFFSET      = 0x00C0 + BASE_ADDRESS
-UNIT_B_OFFSET      = 0x0100 + BASE_ADDRESS
-UNIT_C_OFFSET      = 0x0140 + BASE_ADDRESS
-UNIT_D_OFFSET      = 0x0180 + BASE_ADDRESS
-UNIT_H_OFFSET      = 0x01C0 + BASE_ADDRESS
-
+UNIT_TYPES_OFFSET  = 0x0000 #+ BASE_ADDRESS
+UNIT_X_OFFSET      = 0x0040 #+ BASE_ADDRESS
+UNIT_Y_OFFSET      = 0x0080 #+ BASE_ADDRESS
+UNIT_A_OFFSET      = 0x00C0 #+ BASE_ADDRESS
+UNIT_B_OFFSET      = 0x0100 #+ BASE_ADDRESS
+UNIT_C_OFFSET      = 0x0140 #+ BASE_ADDRESS
+UNIT_D_OFFSET      = 0x0180 #+ BASE_ADDRESS
+UNIT_H_OFFSET      = 0x01C0 #+ BASE_ADDRESS
+UNIT_BLOCK_SIZE    = 0x42
+# Fill region from units end to map begin with what:
+# it seems to be 0xAA, except for that special X16 version
+FILL_VALUE = 0xAA
 # MAP_DATA_OFFSET = 770  # PET:770, Amiga: 768, X16-Robots-a-version?: 770 - 128 - 128
 # WARNING MAP_DATA_OFFSET is crucial 
 # Check if the item location match
-MAP_DATA_OFFSET = 770 - 128 -128
+MAP_DATA_OFFSET = 770 #- 128 -128
 # MAP_DATA_OFFSET = 0x0200
