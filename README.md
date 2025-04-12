@@ -59,21 +59,21 @@ A PyQt5-based editor for creating and editing tile-based maps, with support for 
 
 [Unit codes and parameters](https://www.the8bitguy.com/pr-mapedit/)
 
-- P: Player (blue)
-- R: Robots (red)
-- D: Doors (green)
-- I: Items (magenta)
+- P: Player ($\textcolor{blue}{\textrm{blue ■}}$)
+- R: Robots ($\textcolor{red}{\textrm{red ■}}$)
+- D: Doors and Transport ($\textcolor{green}{\textrm{green ■}}$)
+- I: Items ($\textcolor{magenta}{\textrm{magenta ■}}$)
 
 Example `R17-2`   : Robot with Unit ID 17, Type 2
 Example `D38-10-3`: Door with Unit ID 17, Type 10, needs Key 3
 
 ### Edit units
 
-- Blue Frame: Player
-- Red Frame: Robots
-- Green Frame: Doors, Rafts, ...
-- Magenta Frame: Items
-- Grey Frame: Unknown Type
+- Blue Frame ($\textcolor{blue}{\textrm{▭}}$): Player
+- Red Frame ($\textcolor{red}{\textrm{▭}}$): Robots
+- Green Frame ($\textcolor{green}{\textrm{▭}}$): Doors, Rafts, ... (Transport)
+- Magenta Frame ($\textcolor{magenta}{\textrm{▭}}$): Items
+- Grey Frame ($\textcolor{gray}{\textrm{▭}}$): Unknown Type
 
 - You should read the [Map Editor Instructions](https://www.the8bitguy.com/pr-mapedit/).
 - The first two units are "special". Editable units begin with the player unit.
