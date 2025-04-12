@@ -299,7 +299,8 @@ class MapCanvasWidget(QLabel):
                 screen_x, screen_y,
                 self.tile_size, self.tile_size, f"P{unit_id}-{unit_type}") 
                 #painter.drawText(screen_x + 5 + 17, screen_y + 16, f"P{unit_id}-{unit_type}")
-            elif 1 <= unit_id <= 27:  # Robots
+            #elif 1 <= unit_id <= 27:  # Robots
+            elif 3 <= unit_id <= 3 + 26:  # Robots
                 #painter.setPen(QColor(ROBOT_COLOR))
                 fill_color = QColor(ROBOT_COLOR)  
                 fill_color.setAlpha(128)
@@ -310,7 +311,8 @@ class MapCanvasWidget(QLabel):
                 screen_x, screen_y,
                 self.tile_size, self.tile_size, f"R{unit_id}-{unit_type}") 
                 #painter.drawText(screen_x + 5 + 17, screen_y + 16, f"R{unit_id-3}-{unit_type}")
-            elif 32 <= unit_id <= 47:  # Doors
+            #elif 32 <= unit_id <= 47:  # Doors
+            elif 34 <= unit_id <= 34 + 15:  # Door
                 #painter.setPen(QColor(DOOR_COLOR))
                 fill_color = QColor(DOOR_COLOR)  
                 fill_color.setAlpha(128)
@@ -320,7 +322,8 @@ class MapCanvasWidget(QLabel):
                 painter,
                 screen_x, screen_y,
                 self.tile_size, self.tile_size, f"D{unit_id}-{unit_type}-{c}") 
-            elif 48 <= unit_id <= 63:  # Items
+            #elif 48 <= unit_id <= 63:  # Items
+            elif 50 <= unit_id <= 50 + 15:  # Items
                 #painter.setPen(QColor(ITEM_COLOR))
                 #painter.drawEllipse(screen_x + 4, screen_y + 4, 
                 #                  self.tile_size - 8, self.tile_size - 8)
