@@ -35,7 +35,8 @@ A PyQt5-based editor for creating and editing tile-based maps, with support for 
 8. Copy the tiles in the folder `tiles`
 9. Download levels from: [https://github.com/zeropolis79/PETSCIIRobots-Pet/tree/main](https://github.com/zeropolis79/PETSCIIRobots-Pet/tree/main) or from other level locations (see *Map Files*).
 10. In case of `venv`: `source /path-to-program/bin/activate`
-11. Run the application: `python3 main.py`
+11. Editing `constants.py` may be required (refer to *Map Files* for details)
+12. Run the application: `python3 main.py`
 
 ## Usage
 
@@ -102,7 +103,9 @@ Example `D38-10-3`: Door with Unit ID 17, Type 10, needs Key 3
 ### Map Files
 
 - The application loads maps (levels) in a binary format compatible with PETSCII Robots.
-- **IMPORTANT!** Check the `MAP_DATA_OFFSET` in `constants.py`, as it can differ across versions (I found 770 and 514 for two versions of the X16 robots). In case of a mismatch, units—such as hidden objects or robots—may appear shifted. However, the issue can be even more subtle.
+- Slight differences in the level files across different systems or versions can be resolved by editing `constants.py`.
+- **"IMPORTANT!"** Check the `MAP_DATA_OFFSET` in `constants.py`, as it can vary between versions (I found 770 and 514 for two versions of the X16 robots).
+  In case of a mismatch, units—such as hidden objects or robots—may appear shifted, though the issue can be even more subtle.
 - Check the console output of the program. Output 1:
 ```
   Map size: 128x64
