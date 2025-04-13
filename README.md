@@ -15,9 +15,6 @@ A PyQt5-based editor for editing tile-based maps, with support for animated tile
 - Undo/redo functionality (for tiles, not for units)
 - Keyboard shortcuts for navigation 
 
-## To do list
-- enhance UI
-
 ## Requirements
 
 - Python 3.6+
@@ -129,6 +126,11 @@ two times `8192` bytes is okay.
 - This can be verified using tools like [HexFiend](https://hexfiend.com), for example.
 - Warning! Saving the level may destroy it. Make a backup copy of the level before editing.
 
+### Map / Level Interoperability
+
+Not really (yet). Loading and editing a level from the PET version likely won’t work correctly on the Amiga version due to differing map data offsets. 
+You can experiment with `MAP_DATA_OFFSET_LOAD` and `MAP_DATA_OFFSET_SAVE` in `constants.py` to adjust for these differences, though this functionality hasn’t been thoroughly tested yet.
+
 ## Project Structure
 
 The project is organized into several Python modules:
@@ -160,5 +162,5 @@ tile-map-editor/
 
 ## Examples
 
-<img src='gfx/ex1.gif' width='600' alt='Screenshot' align='center'>
 <img src='gfx/ex2.gif' width='600' alt='Screenshot' align='center'>
+<img src='gfx/ex3.gif' width='600' alt='Screenshot' align='center'>
