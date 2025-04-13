@@ -98,7 +98,7 @@ Example `D38-10-3`: Door with Unit ID 17, Type 10, needs Key 3
   <img src='gfx/edit2.png' width='400' alt='Screenshot' align='center'>
 </div>
   
-### Map Files
+### Map Files (Level)
 
 - The application loads maps (levels) in a binary format compatible with PETSCII Robots.
 - Slight differences in the level files across different systems or versions can be resolved by editing `constants.py`.
