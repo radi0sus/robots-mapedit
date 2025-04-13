@@ -142,6 +142,12 @@ UNIT_BLOCK_SIZE = 0x42
 MAP_DATA_OFFSET = 770
 PLAYER_UNIT_ID = 2
 ```
+###### C128
+```
+UNIT_BLOCK_SIZE = 0x42
+MAP_DATA_OFFSET = 770
+PLAYER_UNIT_ID = 2
+```
 ###### MS-DOS
 ```
 UNIT_BLOCK_SIZE = 0x40
@@ -185,5 +191,6 @@ tile-map-editor/
 
 ## Examples
 
-<img src='gfx/ex2.gif' width='600' alt='Screenshot' align='center'>
-<img src='gfx/ex3.gif' width='600' alt='Screenshot' align='center'>
+<img src='gfx/ex2.gif' width='500' alt='Screenshot' align='center'>
+<img src='gfx/ex3.gif' width='500' alt='Screenshot' align='center'>
+<img src='gfx/ex4.gif' width='500' alt='Screenshot' align='center'>
