@@ -127,7 +127,7 @@ two times `8192` bytes is okay.
 - There are two more important parameters in `constants.py`: `UNIT_BLOCK_SIZE` and `PLAYER_UNIT_ID`
 - `PLAYER_UNIT_ID` can be obtained from the program output and is either `0` or `2`.  
 - `UNIT_BLOCK_SIZE` is either `0x42` or `0x40`.  
-- `FILL_VALUE` can be `0x00` or `0xAA`. It appears to depend on the level, but it is not yet clear whether this value is important.  
+- `FILL_VALUE` can be `0x00` or `0xAA` or different. It appears to depend on the level, but it is not yet clear whether this value is important.  
 - **Warning:** Saving the level may corrupt or destroy it. Make a backup copy of the level before editing.
 
 ###### Commander X16 (Full Version) from 8-Bit Guy web site
