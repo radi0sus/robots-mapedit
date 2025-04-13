@@ -1,7 +1,10 @@
 import copy
-from constants import (DEFAULT_MAP_WIDTH, DEFAULT_MAP_HEIGHT, MAP_DATA_OFFSET, 
-                       UNIT_TYPES_OFFSET, UNIT_X_OFFSET, UNIT_Y_OFFSET, UNIT_A_OFFSET, 
-                       UNIT_B_OFFSET, UNIT_C_OFFSET, UNIT_D_OFFSET, UNIT_H_OFFSET,
+from constants import (DEFAULT_MAP_WIDTH, DEFAULT_MAP_HEIGHT, MAP_DATA_OFFSET_LOAD,
+                       MAP_DATA_OFFSET_SAVE, 
+                       UNIT_TYPES_OFFSET, UNIT_X_OFFSET, 
+                       UNIT_Y_OFFSET, UNIT_A_OFFSET, 
+                       UNIT_B_OFFSET, UNIT_C_OFFSET, 
+                       UNIT_D_OFFSET, UNIT_H_OFFSET,
                        UNIT_BLOCK_SIZE, FILL_VALUE)
 
 class MapData:
@@ -60,7 +63,7 @@ class MapData:
         try:
             # PETSCII Robots format with units
             #bytes_to_write = bytearray(770 + 128 * 64)  # Initialize with zeros
-            bytes_to_write = bytearray([FILL_VALUE] * (MAP_DATA_OFFSET + 128 * 64)) 
+            bytes_to_write = bytearray([FILL_VALUE] * (MAP_DATA_OFFSET_SAVE + 128 * 64)) 
             
             # Write the header bytes first
             bytes_to_write[0x0000:0x0002] = self.header_bytes
@@ -101,7 +104,7 @@ class MapData:
                     if tile == -1:
                         tile = 0
                     ##### offset!!! depends on device!! 770 PET, 770-128-128 X16 
-                    bytes_to_write[MAP_DATA_OFFSET + y * 128 + x] = tile & 0xFF
+                    bytes_to_write[MAP_DATA_OFFSET_SAVE + y * 128 + x] = tile & 0xFF
             
             with open(filepath, 'wb') as f:
                 f.write(bytes_to_write)
@@ -169,7 +172,7 @@ class MapData:
 
             # Process map tiles
             print("\n--- Loading Map Tiles ---")
-            index = MAP_DATA_OFFSET
+            index = MAP_DATA_OFFSET_LOAD
             for y in range(self.height):
                 for x in range(self.width):
                     if index < len(binary_data):
@@ -181,9 +184,9 @@ class MapData:
             
             # Map info
             print(f"\nMap size: {self.width}x{self.height}")
-            print(f"Map data starts at offset: {MAP_DATA_OFFSET}")
+            print(f"Map data starts at offset: {MAP_DATA_OFFSET_LOAD}")
             print(f"Expected map size: {self.width * self.height} bytes")
-            print(f"Actual data after offset: {len(binary_data) - MAP_DATA_OFFSET} bytes")
+            print(f"Actual data after offset: {len(binary_data) - MAP_DATA_OFFSET_LOAD} bytes")
             
             return True
         except IOError as e:
