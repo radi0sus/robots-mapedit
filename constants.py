@@ -46,7 +46,8 @@ UNIT_B_OFFSET      = 0x0100 #+ BASE_ADDRESS
 UNIT_C_OFFSET      = 0x0140 #+ BASE_ADDRESS
 UNIT_D_OFFSET      = 0x0180 #+ BASE_ADDRESS
 UNIT_H_OFFSET      = 0x01C0 #+ BASE_ADDRESS
-UNIT_BLOCK_SIZE    = 0x42
+# UNIT_BLOCK_SIZE    = 0x40 # if MAP_OFFSET is 768 (MS-DOS)
+UNIT_BLOCK_SIZE    = 0x42   # if MAP_OFFSET is 770 (PET) or 770 -128 -128 (X16)
 # Fill region from units end to map begin with what:
 # it seems to be 0xAA (except for that special X16 version)
 # or 0x00, depends on the level
@@ -55,12 +56,14 @@ UNIT_BLOCK_SIZE    = 0x42
 FILL_VALUE = 0xAA
 # MAP_DATA_OFFSET = 770 
 # PET, C64x:770, 
-# Amiga, MS-DOS(?): 768 
+# Amiga, MS-DOS: 768 
 # X16-Robots (from 8-Bit-Guy Homepage): 770 - 128 - 128
 # X16-Robots (from GitHub): 770 (?)
 # WARNING MAP_DATA_OFFSET is crucial 
 # Check if the item location match
-MAP_DATA_OFFSET = 770 #- 128 -128
+MAP_DATA_OFFSET = 770 #- 128 - 128
 MAP_DATA_OFFSET_LOAD = MAP_DATA_OFFSET
 MAP_DATA_OFFSET_SAVE = MAP_DATA_OFFSET
 # MAP_DATA_OFFSET = 0x0200
+# PLAYER_UNIT_ID = 0 # if MAP_OFFSET is 768 (MS-DOS)
+PLAYER_UNIT_ID = 2 # # if MAP_OFFSET is 770 (PET) or 770 -128 - 128 (X16)
