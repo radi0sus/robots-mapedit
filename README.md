@@ -122,6 +122,7 @@ two times `8192` bytes is okay.
   Actual data after offset: 7936 bytes
 ```
  `8192` and `7936` bytes, `MAP_DATA_OFFSET` is probably wrong.
+- The script attempts to determine the level structure and provides a suggestion, but it does not modify the values in `constants.py`. Check the output.
 - Loading a level file and saving it without any edits should result in identical files.
 - This can be verified using tools like [HexFiend](https://hexfiend.com), for example.
 - There are two more important parameters in `constants.py`: `UNIT_BLOCK_SIZE` and `PLAYER_UNIT_ID`
@@ -163,7 +164,7 @@ PLAYER_UNIT_ID = 0
 Not really (yet). Loading and editing a level from the PET version likely won’t work correctly on the Amiga version due to differing map data offsets. 
 You can experiment with `MAP_DATA_OFFSET_LOAD` and `MAP_DATA_OFFSET_SAVE` in `constants.py` to adjust for these differences, though this functionality hasn’t been thoroughly tested yet.  
 
-##### Probably interoperabel
+##### Probably interoperable
 - PET, C64, C128
 - MS-DOS, Amiga
 
