@@ -179,10 +179,21 @@ class MapData:
             # get the first byte of the map
             first_map_byte = binary_data[MAP_DATA_OFFSET_LOAD:MAP_DATA_OFFSET_LOAD + 1]
             # if it is equal to self.fill_byte than there is no fill byte or offset is wrong
+            
+            #try to determine the level structure 
+            if self.header_bytes[0] == 0x01:
+                print("\nThis is probably a level for the Amiga or MS-DOS.")
+            elif self.header_bytes[1] == 0x5D:
+                print("\nThis is probably a level for the PET, C64 or C128.")
+            else:
+                print("\nUnknown level architecture or X16.")
+                
             if first_map_byte == self.fill_byte:
                 print("\nFill Byte: None")
+                print("This is probably a level for the X16.")
             else:
                 print(f"\nFill Byte: {self.fill_byte.hex().upper()}")
+                
             # Process map tiles
             print("\n--- Loading Map Tiles ---")
             index = MAP_DATA_OFFSET_LOAD
