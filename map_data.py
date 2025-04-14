@@ -5,7 +5,7 @@ from constants import (DEFAULT_MAP_WIDTH, DEFAULT_MAP_HEIGHT, MAP_DATA_OFFSET_LO
                        UNIT_Y_OFFSET, UNIT_A_OFFSET, 
                        UNIT_B_OFFSET, UNIT_C_OFFSET, 
                        UNIT_D_OFFSET, UNIT_H_OFFSET,
-                       UNIT_BLOCK_SIZE, FILL_VALUE)
+                       UNIT_BLOCK_SIZE)
 
 class MapData:
     """Manages the map data and provides undo/redo functionality"""
@@ -20,6 +20,7 @@ class MapData:
         self.unit_positions = {}  # Maps unit_id to (x, y, unit_type)
         # header 
         self.header_bytes = bytearray([0x0, 0x0])  # Default to zeros
+        self.fill_byte = 0x00
     
     def get_tile(self, x, y):
         """Get the tile at (x, y) coordinates"""
@@ -63,6 +64,9 @@ class MapData:
         try:
             # PETSCII Robots format with units
             #bytes_to_write = bytearray(770 + 128 * 64)  # Initialize with zeros
+            #bytes_to_write = bytearray([FILL_VALUE] * (MAP_DATA_OFFSET_SAVE + 128 * 64)) 
+            # fill byte array with fill byte (0x00, 0xAA or "nothing")
+            FILL_VALUE = self.fill_byte[0]
             bytes_to_write = bytearray([FILL_VALUE] * (MAP_DATA_OFFSET_SAVE + 128 * 64)) 
             
             # Write the header bytes first
@@ -143,6 +147,8 @@ class MapData:
             unit_c = binary_data[UNIT_C_OFFSET:UNIT_C_OFFSET + UNIT_BLOCK_SIZE]
             unit_d = binary_data[UNIT_D_OFFSET:UNIT_D_OFFSET + UNIT_BLOCK_SIZE]
             unit_h = binary_data[UNIT_H_OFFSET:UNIT_H_OFFSET + UNIT_BLOCK_SIZE]
+            # get the fill byte which is either 0xAA or 0x00 or "nothing" (X16 version)
+            self.fill_byte = binary_data[UNIT_H_OFFSET + UNIT_BLOCK_SIZE:UNIT_H_OFFSET + UNIT_BLOCK_SIZE + 1]
             
             # Process units
             for i in range(UNIT_BLOCK_SIZE):
@@ -169,7 +175,14 @@ class MapData:
                 #        self.unit_positions[0] = (x, y, t, a, b, c, d, h)  # Assign player to Unit 0
                 #    else:
                 #        print(f"Unit {i}: Position ({x}, {y}), Type: {t}, A: {a}, B: {b}, C: {c}, D: {d}, Health: {h}")
-
+            
+            # get the first byte of the map
+            first_map_byte = binary_data[MAP_DATA_OFFSET_LOAD:MAP_DATA_OFFSET_LOAD + 1]
+            # if it is equal to self.fill_byte than there is no fill byte or offset is wrong
+            if first_map_byte == self.fill_byte:
+                print("\nFill Byte: None")
+            else:
+                print(f"\nFill Byte: {self.fill_byte.hex().upper()}")
             # Process map tiles
             print("\n--- Loading Map Tiles ---")
             index = MAP_DATA_OFFSET_LOAD
