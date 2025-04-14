@@ -142,6 +142,14 @@ UNIT_BLOCK_SIZE = 0x42
 MAP_DATA_OFFSET = 770
 PLAYER_UNIT_ID = 2
 ```
+##### VIC-20 
+(same offsets like PET, but different values)  
+(vertical doors are open)
+```
+UNIT_BLOCK_SIZE = 0x42 
+MAP_DATA_OFFSET = 770 
+PLAYER_UNIT_ID = 2 
+```
 ###### MS-DOS, Amiga
 ```
 UNIT_BLOCK_SIZE = 0x40
@@ -152,7 +160,11 @@ PLAYER_UNIT_ID = 0
 ### Map / Level Interoperability
 
 Not really (yet). Loading and editing a level from the PET version likely won’t work correctly on the Amiga version due to differing map data offsets. 
-You can experiment with `MAP_DATA_OFFSET_LOAD` and `MAP_DATA_OFFSET_SAVE` in `constants.py` to adjust for these differences, though this functionality hasn’t been thoroughly tested yet.
+You can experiment with `MAP_DATA_OFFSET_LOAD` and `MAP_DATA_OFFSET_SAVE` in `constants.py` to adjust for these differences, though this functionality hasn’t been thoroughly tested yet.  
+
+##### Probably interoperabel
+- PET, C64, C128
+- MS-DOS, Amiga
 
 ## Project Structure
 
