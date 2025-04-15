@@ -187,16 +187,18 @@ class MapData:
             # if it is equal to self.fill_byte than there is no fill byte or offset is wrong
             
             #try to determine the level structure 
-            if self.header_bytes[0] == 0x01:
+            if self.header_bytes[0] == 0x01 and len(binary_data) == 8960:
                 print("\nThis is probably a level for the Amiga or MS-DOS.")
-            elif self.header_bytes[1] == 0x5D:
-                print("\nThis is probably a level for the PET, C64, C128 or X16.")
+            elif self.header_bytes[1] == 0x5D and len(binary_data) == 8962:
+                print("\nThis is probably a level for the PET, C64 or C128.")
+            elif len(binary_data) == 8706:
+                print("\nThis is probably a level for the X16.")
             else:
-                print("\nUnknown level architecture or X16.")
+                print("\nUnknown level architecture.")
                 
             if first_map_byte == self.fill_byte:
                 print("\nFill Byte: None")
-                print("This is probably a level for the X16.")
+                print("\nExcept for the X16 version, the fill byte should be not 'None'.")
             else:
                 print(f"\nFill Byte: {self.fill_byte.hex().upper()}")
                 
