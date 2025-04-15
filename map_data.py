@@ -5,7 +5,7 @@ from constants import (DEFAULT_MAP_WIDTH, DEFAULT_MAP_HEIGHT, MAP_DATA_OFFSET_LO
                        UNIT_Y_OFFSET, UNIT_A_OFFSET, 
                        UNIT_B_OFFSET, UNIT_C_OFFSET, 
                        UNIT_D_OFFSET, UNIT_H_OFFSET,
-                       UNIT_BLOCK_SIZE)
+                       UNIT_BLOCK_SIZE, PLAYER_UNIT_ID)
 
 class MapData:
     """Manages the map data and provides undo/redo functionality"""
@@ -100,6 +100,11 @@ class MapData:
                 bytes_to_write[UNIT_D_OFFSET + unit_id] = d               # Property D
                 bytes_to_write[UNIT_H_OFFSET + unit_id] = h               # Health
             
+            # otherwise there will be a 01 in the beginning of the level if the values
+            # of the player have been changed 
+            if PLAYER_UNIT_ID == 2:
+                bytes_to_write[0x0000:0x0002] = self.header_bytes
+            
             # Write map data
             for y in range(min(self.height, 64)):
                 for x in range(min(self.width, 128)):
@@ -114,6 +119,7 @@ class MapData:
                 f.write(bytes_to_write)
             
             return True
+            
         except IOError as e:
             print(f"Error saving binary map: {e}")
             return False
@@ -184,7 +190,7 @@ class MapData:
             if self.header_bytes[0] == 0x01:
                 print("\nThis is probably a level for the Amiga or MS-DOS.")
             elif self.header_bytes[1] == 0x5D:
-                print("\nThis is probably a level for the PET, C64 or C128.")
+                print("\nThis is probably a level for the PET, C64, C128 or X16.")
             else:
                 print("\nUnknown level architecture or X16.")
                 
