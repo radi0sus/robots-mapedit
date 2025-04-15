@@ -45,6 +45,28 @@ A PyQt5-based editor for editing tile-based maps, with support for animated tile
 - **Ctrl+Z**: Undo
 - **Ctrl+Y**: Redo
 
+#### Tile Drawing Shortcuts:
+
+| Key        | Tile                                          |
+|------------|-----------------------------------------------|
+| B          | 2×2 block of the selected tile                |
+| Shift + B  | 8×8 block of the selected tile                |
+| H          | Horizontal line of 3 tiles                    |
+| Shift + H  | Horizontal line of 12 tiles                   |
+| V          | Vertical line of 3 tiles                      |
+| Shift + V  | Vertical line of 12 tiles                     |
+| C          | Corner made of the selected tile              |
+| Shift + C  | Large corner made of the selected tile        |
+| X          | Cross shape                                   |
+| F          | Fan (Ventilation)                             |
+| D          | Horizontal door                               |
+| Shift + D  | Vertical door                                 |
+| K          | Kitchen corner                                |
+| L          | Lander                                        |
+
+To define new or alter existing shortcuts in `tilemap_editor.py`, edit the corresponding 
+entries in `self.tile_patterns` or `self.special_tile_patterns`, and add or update the key in `self.pattern_keys`.
+
 ### Interface Elements
 
 - **Top-left panel**: Map view with grid
