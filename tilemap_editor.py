@@ -42,6 +42,76 @@ class TileMapEditor(QWidget):
             callback=self.on_animation_update
         )
         
+        # Add tile patterns dictionary
+        self.tile_patterns = {
+        'block': [(0, 0), (1, 0), (0, 1), (1, 1)],                   # 2x2 block
+        'large_block': [(x, y) for x in range(8) for y in range(8)], # 8x8 bblock
+        'hline': [(0, 0), (1, 0), (2, 0)],               # Horizontal line of 3 tiles
+        'long_hline':[(x, 0) for x in range(12)],        # Horizontal line of 12 tiles
+        'vline': [(0, 0), (0, 1), (0, 2)],               # Vertical line of 3 tiles
+        'long_vline': [(0, y) for y in range(12)],       # Vertical line of 12 tiles
+        'corner': [(0, 0), (1, 0), (0, 1)],              # L-shape corner
+        'long_corner': [(0, y) for y in range(8)] + [(x, 0) for x in range(1, 8)],
+        'cross': [(0, 0), (1, 0), (-1, 0), (0, 1), (0, -1)]  # Cross pattern
+        }
+        
+        # Special tile patterns with specific tile IDs
+        self.special_tile_patterns = {
+        'fan': [
+            (0, 0, 196),  # x, y, tile_id
+            (1, 0, 197),
+            (0, 1, 200),
+            (1, 1, 201)
+            ],
+        'horizontal_door': [
+            (0, 0, 80),  # x, y, tile_id
+            (1, 0, 81),
+            (2, 0, 82),
+            ],
+        'vertical_door': [
+            (0, 0, 68),  # x, y, tile_id
+            (0, 1, 72),
+            (0, 2, 76),
+            ],
+        'kitchen_corner': [
+            (0, 0, 48),  # x, y, tile_id
+            (1, 0, 49),
+            (2, 0, 50),
+            (0, 1, 52),
+            (1, 1, 53),
+            (2, 1, 54),
+            (0, 2, 56),
+            (1, 2, 57),
+            ],
+        'lander': [
+            (0, 0, 132),  # x, y, tile_id
+            (1, 0, 133),
+            (0, 1, 136),
+            (1, 1, 137),
+            ]
+        }
+        
+        
+       
+        # Pattern key bindings - now with modifiers
+        # Format: (key, modifier): pattern_name
+        self.pattern_keys = {
+            (Qt.Key_B, Qt.NoModifier):      'block',          # B with no modifier
+            (Qt.Key_B, Qt.ShiftModifier):   'large_block',    # Shift + B
+            (Qt.Key_H, Qt.NoModifier):      'hline',
+            (Qt.Key_H, Qt.ShiftModifier):   'long_hline',
+            (Qt.Key_V, Qt.NoModifier):      'vline',
+            (Qt.Key_V, Qt.ShiftModifier):   'long_vline',
+            (Qt.Key_C, Qt.NoModifier):      'corner',
+            (Qt.Key_C, Qt.ShiftModifier):   'long_corner',
+            (Qt.Key_X, Qt.NoModifier):      'cross',
+            (Qt.Key_F, Qt.NoModifier):      'fan',
+            (Qt.Key_D, Qt.NoModifier):      'horizontal_door',
+            (Qt.Key_D, Qt.ShiftModifier):   'vertical_door',
+            (Qt.Key_K, Qt.NoModifier):      'kitchen_corner',
+            (Qt.Key_L, Qt.NoModifier):      'lander',
+        }
+        
         # Navigation properties
         self.map_window_x = 0
         self.map_window_y = 0
@@ -298,21 +368,73 @@ class TileMapEditor(QWidget):
             self.update_map_display()
             self.info_label.setText("Redo")
     
+    def draw_tile_pattern(self, pattern_type):
+        """Draw a pattern of tiles at the current cursor position"""
+        # Get current cursor position from info label
+        info_text = self.info_label.text()
+        if "Cursor:" not in info_text:
+            return  # No valid cursor position
+        
+        try:
+            coords = info_text.split("Cursor: ")[1].split(" Tile:")[0].split(",")
+            map_x = int(coords[0])
+            map_y = int(coords[1])
+        except (IndexError, ValueError):
+            return  # Invalid cursor position format
+        
+        # Check if this is a special pattern with specific tile IDs
+        if pattern_type in self.special_tile_patterns:
+            # Special pattern with predefined tile IDs
+            positions = self.special_tile_patterns[pattern_type]
+            
+            # Place each tile with its specific ID
+            for dx, dy, tile_id in positions:
+                self.map_data.set_tile(map_x + dx, map_y + dy, tile_id)
+                
+        else:
+            # Regular pattern using currently selected tile
+            # Get currently selected tile
+            tile_id = self.palette.selected_tile
+            
+            # Use the selected pattern from our pattern dictionary
+            # or default to a single tile if pattern not found
+            positions = self.tile_patterns.get(pattern_type, [(0, 0)])
+            
+            # Place each tile in the pattern with the same tile ID
+            for dx, dy in positions:
+                self.map_data.set_tile(map_x + dx, map_y + dy, tile_id)
+    
+        # Update the display
+        self.update_map_display()
+        self.info_label.setText(f"Drew {pattern_type} pattern at {map_x},{map_y}")
+    
     def keyPressEvent(self, event):
         """Handle keyboard input"""
+        # Get the key and modifiers
+        key = event.key()
+        modifiers = event.modifiers()
+        
         # Navigation
-        if event.key() == Qt.Key_Left:
+        if key == Qt.Key_Left:
             self.navigate(-self.nav_speed, 0)
-        elif event.key() == Qt.Key_Right:
+        elif key == Qt.Key_Right:
             self.navigate(self.nav_speed, 0)
-        elif event.key() == Qt.Key_Up:
+        elif key == Qt.Key_Up:
             self.navigate(0, -self.nav_speed)
-        elif event.key() == Qt.Key_Down:
+        elif key == Qt.Key_Down:
             self.navigate(0, self.nav_speed)
-        # Quick tile selection with number keys
-        elif Qt.Key_0 <= event.key() <= Qt.Key_9:
-            tile_num = event.key() - Qt.Key_0
+        # Quick tile selection with number keys (when no modifier is pressed)
+        elif Qt.Key_0 <= key <= Qt.Key_9 and modifiers == Qt.NoModifier:
+            tile_num = key - Qt.Key_0
             if tile_num < len(self.tile_manager.tiles):
                 self.palette.set_selected_tile(tile_num)
+        # Pattern drawing with defined key bindings and modifiers
+        elif (key, modifiers) in self.pattern_keys:
+            pattern_name = self.pattern_keys[(key, modifiers)]
+            self.draw_tile_pattern(pattern_name)
+        # Also check without modifiers for flexibility
+        elif (key, Qt.NoModifier) in self.pattern_keys and modifiers == Qt.NoModifier:
+            pattern_name = self.pattern_keys[(key, Qt.NoModifier)]
+            self.draw_tile_pattern(pattern_name)
         else:
             super().keyPressEvent(event)
