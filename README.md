@@ -155,12 +155,14 @@ two times `8192` bytes is okay.
 - **Warning:** Saving the level may corrupt or destroy it. Make a backup copy of the level before editing.
 
 ###### Commander X16 (Full Version) from 8-Bit Guy web site
+Level size: 8706 bytes, starts with `007D` or  `005D`
 ```
 UNIT_BLOCK_SIZE = 0x42
 MAP_DATA_OFFSET = 770 - 128 - 128
 PLAYER_UNIT_ID = 2 
 ```
 ###### PET, C64, C128
+Level size: 8962 bytes, starts with `005D`
 ```
 UNIT_BLOCK_SIZE = 0x42
 MAP_DATA_OFFSET = 770
@@ -175,6 +177,7 @@ MAP_DATA_OFFSET = 770
 PLAYER_UNIT_ID = 2 
 ```
 ###### MS-DOS, Amiga
+Level size: 8960 bytes, starts with `01`
 ```
 UNIT_BLOCK_SIZE = 0x40
 MAP_DATA_OFFSET = 768
