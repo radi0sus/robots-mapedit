@@ -57,7 +57,7 @@ A PyQt5-based editor for editing tile-based maps, with support for animated tile
 | Shift + V  | Vertical line of 12 tiles                     |
 | C          | Corner made of the selected tile              |
 | Shift + C  | Large corner made of the selected tile        |
-| X          | Cross shape                                   |
+| X          | Cross shape made of the selected tile         |
 | F          | Fan (Ventilation)                             |
 | D          | Horizontal door                               |
 | Shift + D  | Vertical door                                 |
