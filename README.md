@@ -54,7 +54,7 @@ A PyQt5-based editor for editing tile-based maps, with support for animated tile
 | <kbd>H</kbd>                     | Horizontal line of 3 tiles                    |
 | <kbd>Shift</kbd> + <kbd>H</kbd>  | Horizontal line of 12 tiles                   |
 | <kbd>V</kbd>                     | Vertical line of 3 tiles                      |
-| <kbd>Shift + <kbd>V</kbd>        | Vertical line of 12 tiles                     |
+| <kbd>Shift</kbd> + <kbd>V</kbd>  | Vertical line of 12 tiles                     |
 | <kbd>C</kbd>                     | Corner made of the selected tile              |
 | <kbd>Shift</kbd> + <kbd>C</kbd>  | Large corner made of the selected tile        |
 | <kbd>X</kbd>                     | Cross shape made of the selected tile         |
