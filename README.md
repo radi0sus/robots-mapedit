@@ -63,6 +63,12 @@ A PyQt5-based editor for editing tile-based maps, with support for animated tile
 | <kbd>Shift</kbd> + <kbd>D</kbd>  | Vertical door                                 |
 | <kbd>K</kbd>                     | Kitchen corner                                |
 | <kbd>L</kbd>                     | Lander                                        |
+| <kbd>M</kbd>                     | Mirror cabinet                                |
+| <kbd>S</kbd>                     | Bed (sleep)                                   |
+| <kbd>T</kbd>                     | Table (desk)                                  |
+| <kbd>Shift</kbd> + <kbd>T</kbd>  | Trash compactor                               |
+| <kbd>W</kbd>                     | WC (2 units)                                  |
+| <kbd>Shift</kbd> + <kbd>W</kbd>  | WC (middle part)                              |
 
 To define new or alter existing shortcuts in `tilemap_editor.py`, edit the corresponding 
 entries in `self.tile_patterns` or `self.special_tile_patterns`, and add or update the key in `self.pattern_keys`.
