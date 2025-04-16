@@ -88,6 +88,39 @@ class TileMapEditor(QWidget):
             (1, 0, 133),
             (0, 1, 136),
             (1, 1, 137),
+            ],
+         'table': [
+            (0, 0, 43),  # x, y, tile_id
+            (0, 1, 47),
+            (0, 2, 51),
+            ],
+        'trash_compactor': [
+            (0, 0, 144),  # x, y, tile_id
+            (1, 0, 145),
+            (0, 1, 148),
+            (1, 1, 148),
+            ],
+        'mirror_cabinet': [
+            (0, 0, 166),  # x, y, tile_id
+            (1, 0, 167),
+            (0, 1, 170),
+            (1, 1, 171),
+            ],
+        'bed': [
+            (0, 0, 60),  # x, y, tile_id
+            (1, 0, 61),
+            ],
+        'wc': [
+            (0, 0, 104),  # x, y, tile_id
+            (1, 0, 105),
+            (2, 0, 106),
+            (0, 1, 108),
+            (1, 1, 109),
+            (2, 1, 110),
+            ],
+        'wc_m': [
+            (0, 0, 105),  # x, y, tile_id
+            (0, 1, 109),
             ]
         }
         
@@ -110,6 +143,12 @@ class TileMapEditor(QWidget):
             (Qt.Key_D, Qt.ShiftModifier):   'vertical_door',
             (Qt.Key_K, Qt.NoModifier):      'kitchen_corner',
             (Qt.Key_L, Qt.NoModifier):      'lander',
+            (Qt.Key_M, Qt.NoModifier):      'mirror_cabinet',
+            (Qt.Key_S, Qt.NoModifier):      'bed',
+            (Qt.Key_T, Qt.NoModifier):      'table',
+            (Qt.Key_T, Qt.ShiftModifier):   'trash_compactor',
+            (Qt.Key_W, Qt.NoModifier):      'wc',
+            (Qt.Key_W, Qt.ShiftModifier):   'wc_m',
         }
         
         # Navigation properties
