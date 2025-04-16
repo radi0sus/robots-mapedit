@@ -195,7 +195,10 @@ Usage Example:
 ```
 python3 cnvlvl.py level-name PET
 ```
-Convert the present level to a PET (C64, C128) compatible level. Use parameter `MSD` to convert the level files to the MS-DOS or Amiga version, or `X16` to convert them to the X16 version.
+Convert the present level to a PET (C64, C128) compatible level. Use parameter `MSD` to convert the level files to the MS-DOS or Amiga version, or `X16` to convert them to the X16 version.  
+
+
+**Warning:** Converting a level may cause corruption or data loss. Make sure to create a backup copy before proceeding.
 
 ##### Probably interoperable
 - PET, C64, C128
