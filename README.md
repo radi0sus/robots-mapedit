@@ -42,27 +42,27 @@ A PyQt5-based editor for editing tile-based maps, with support for animated tile
 - **Left-click**: Place the selected tile
 - **Right-click**: Add unit 
 - **Arrow keys**: Navigate around the map
-- **Ctrl+Z**: Undo
-- **Ctrl+Y**: Redo
+- **<kbd>Ctrl</kbd> + <kbd>Z</kbd>**: Undo
+- **<kbd>Ctrl</kbd> + <kbd>Y</kbd>**: Redo
 
 #### Tile Drawing Shortcuts:
 
-| Key        | Tile                                          |
-|------------|-----------------------------------------------|
-| B          | 2×2 block of the selected tile                |
-| Shift + B  | 8×8 block of the selected tile                |
-| H          | Horizontal line of 3 tiles                    |
-| Shift + H  | Horizontal line of 12 tiles                   |
-| V          | Vertical line of 3 tiles                      |
-| Shift + V  | Vertical line of 12 tiles                     |
-| C          | Corner made of the selected tile              |
-| Shift + C  | Large corner made of the selected tile        |
-| X          | Cross shape made of the selected tile         |
-| F          | Fan (Ventilation)                             |
-| D          | Horizontal door                               |
-| Shift + D  | Vertical door                                 |
-| K          | Kitchen corner                                |
-| L          | Lander                                        |
+| Key                              | Tile                                          |
+|----------------------------------|-----------------------------------------------|
+| <kbd>B</kbd>                     | 2×2 block of the selected tile                |
+| <kbd>Shift</kbd> + <kbd>B</kbd>  | 8×8 block of the selected tile                |
+| <kbd>H</kbd>                     | Horizontal line of 3 tiles                    |
+| <kbd>Shift</kbd> + <kbd>H</kbd>  | Horizontal line of 12 tiles                   |
+| <kbd>V</kbd>                     | Vertical line of 3 tiles                      |
+| <kbd>Shift + <kbd>V</kbd>        | Vertical line of 12 tiles                     |
+| <kbd>C</kbd>                     | Corner made of the selected tile              |
+| <kbd>Shift</kbd> + <kbd>C</kbd>  | Large corner made of the selected tile        |
+| <kbd>X</kbd>                     | Cross shape made of the selected tile         |
+| <kbd>F</kbd>                     | Fan (Ventilation)                             |
+| <kbd>D</kbd>                     | Horizontal door                               |
+| <kbd>Shift</kbd> + <kbd>D</kbd>  | Vertical door                                 |
+| <kbd>K</kbd>                     | Kitchen corner                                |
+| <kbd>L</kbd>                     | Lander                                        |
 
 To define new or alter existing shortcuts in `tilemap_editor.py`, edit the corresponding 
 entries in `self.tile_patterns` or `self.special_tile_patterns`, and add or update the key in `self.pattern_keys`.
@@ -186,8 +186,16 @@ PLAYER_UNIT_ID = 0
 
 ### Map / Level Interoperability
 
-Not really (yet). Loading and editing a level from the PET version likely won’t work correctly on the Amiga version due to differing map data offsets. 
-You can experiment with `MAP_DATA_OFFSET_LOAD` and `MAP_DATA_OFFSET_SAVE` in `constants.py` to adjust for these differences, though this functionality hasn’t been thoroughly tested yet.  
+`cnvlvl.py` is a small, pure Python 3 script, independent of the map editor, that converts level files between different versions. 
+The format of the input level file is automatically detected. 
+The output format can be specified using the parameters `PET` (for PET, C64, C128), `MSD` (MS-DOS, Amiga), or `X16`. 
+The file extension of the new level file denotes the format of the converted level, e.g. `level-a.PET`.
+
+Usage Example:
+```
+python3 cnvlvl.py level-name PET
+```
+Convert the present level to a PET (C64, C128) compatible level. Use parameter `MSD` to convert the level files to the MS-DOS or Amiga version, or `X16` to convert them to the X16 version.
 
 ##### Probably interoperable
 - PET, C64, C128
@@ -205,6 +213,8 @@ The project is organized into several Python modules:
 - **ui_components.py**: UI elements specific to this application
 - **unit_editor.py**: Add or delete units, change properties
 - **constants.py**: Shared constants and settings
+  
+- **cnvlvl.py**: Standalone pure Python3 script for the interconversion of levels
 
 ## Directory Structure
 
@@ -218,6 +228,7 @@ tile-map-editor/
 ├── ui_components.py      # UI widgets
 ├── constants.py          # Shared constants
 ├── unit_editor.py        # Unit editor
+├── cnvlvl.py             # Convert level formats (standalone)   
 └── tiles/                # Directory for tile images
     └── animtiles.png     # Animated tile images
 ```
