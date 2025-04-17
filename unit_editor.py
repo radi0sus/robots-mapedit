@@ -79,10 +79,10 @@ class UnitTypeInfo:
         },
         # Lift / Elevator (19)
         19: {
-            "A": "Current State (0=opening-A 1=opening-B 2=OPEN / 3=closing-A 4=closing-B 5-CLOSED)",
-            "B": "Which floor corresponds to this unit?",
-            "C": "Max number of levels (number should be between 2 and 5)",
-            "D": "Unused",
+            "A": "Unused",
+            "B": "Current State (0=opening-A 1=opening-B 2=OPEN / 3=closing-A 4=closing-B 5-CLOSED)",
+            "C": "Which floor corresponds to this unit?",                   
+            "D": "Max number of levels (number should be between 2 and 5)", 
             "H": "Unused"
         },
         # Water Raft (22)
