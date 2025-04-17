@@ -290,7 +290,10 @@ class UnitEditor(QDialog):
         # Unit ID
         group_layout.addWidget(QLabel("Unit ID:"), 0, 0)
         self.new_id_spin = QSpinBox()
-        self.new_id_spin.setRange(0, 63)
+        if PLAYER_UNIT_ID == 1:
+            self.new_id_spin.setRange(0, 63)
+        else:
+            self.new_id_spin.setRange(0 + PLAYER_UNIT_ID, 63 + PLAYER_UNIT_ID)
         group_layout.addWidget(self.new_id_spin, 0, 1)
         
         # Position
