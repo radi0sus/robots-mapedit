@@ -129,65 +129,38 @@ Example `D38-10-3`: Door with Unit ID 17, Type 10, needs Key 3
 ### Map Files (Level)
 
 - The application loads maps (levels) in a binary format compatible with PETSCII Robots.
-- Slight differences in the level files across different systems or versions can be resolved by editing `constants.py`.
-- **"IMPORTANT!"** Check the `MAP_DATA_OFFSET` in `constants.py`, as it can vary between versions (I found 770 and 514 for two versions of the X16 robots).
-  In case of a mismatch, units — such as hidden objects or robots — may appear shifted, though the issue can be even more subtle.
-- Check the console output of the program.  
-Example output 1:
-```
-  Map size: 128x64
-  Map data starts at offset: 770
-  Expected map size: 8192 bytes
-  Actual data after offset: 8192 bytes
-```
-two times `8192` bytes is okay.  
-
- Example output 2:
-```
-  Map size: 128x64
-  Map data starts at offset: 770
-  Expected map size: 8192 bytes
-  Actual data after offset: 7936 bytes
-```
- `8192` and `7936` bytes, `MAP_DATA_OFFSET` is probably wrong.
-- The script attempts to determine the level structure and provides a suggestion, but it does not modify the values in `constants.py`. Check the output.
+- There are slight differences in the level files across different systems or versions.
+- Differences have been identified in the first two bytes of the file. These can be `0x00 0x7D` (X16, `level-a`) or `0x00 0x5D` (X16, PET, C64, C128),
+  likely indicating a type of header. This header is absent in the MS-DOS and Amiga versions, where the data begins directly with the player unit ID `0x01`.
+- Between unit definitions (512 bytes), there may be a 256-byte region filled with either `0xAA` (likely only in `level-a`) or `0x00`.
+  This region is not present in the X16 version.
+- Due to the differences described above, the total byte size of levels can vary between versions.
+- The script attempts to determine the level structure. Check the output.
 - Loading a level file and saving it without any edits should result in identical files.
 - This can be verified using tools like [HexFiend](https://hexfiend.com), for example.
-- There are two more important parameters in `constants.py`: `UNIT_BLOCK_SIZE` and `PLAYER_UNIT_ID`
-- `PLAYER_UNIT_ID` can be obtained from the program output and is either `0` or `2`.  
-- `UNIT_BLOCK_SIZE` is either `0x42` or `0x40`.  
-- `FILL_VALUE` (the byte area between unit data and map start) can be `0x00`, `0xAA`, or none, depending on the level and program version.
-   The value is automatically determined by the script.
 - **Warning:** Saving the level may corrupt or destroy it. Make a backup copy of the level before editing.
 
 ###### Commander X16 (Full Version) from 8-Bit Guy web site
-Level size: 8706 bytes, starts with `007D` or  `005D`
 ```
-UNIT_BLOCK_SIZE = 0x42
-MAP_DATA_OFFSET = 770 - 128 - 128
-PLAYER_UNIT_ID = 2 
+Level size     : 8706 bytes
+Starts with    : 00 7D or 00 5D
+Map data offset: 770 - 128 - 128 (514)
 ```
+
 ###### PET, C64, C128
 Level size: 8962 bytes, starts with `005D`
 ```
-UNIT_BLOCK_SIZE = 0x42
-MAP_DATA_OFFSET = 770
-PLAYER_UNIT_ID = 2
+Level size     : 8962 bytes
+Starts with    : 00 5D
+Map data offset: 770
 ```
-##### VIC-20 
-(same offsets like PET, but different values)  
-(vertical doors are open)
-```
-UNIT_BLOCK_SIZE = 0x42 
-MAP_DATA_OFFSET = 770 
-PLAYER_UNIT_ID = 2 
-```
+
 ###### MS-DOS, Amiga
 Level size: 8960 bytes, starts with `01`
 ```
-UNIT_BLOCK_SIZE = 0x40
-MAP_DATA_OFFSET = 768
-PLAYER_UNIT_ID = 0
+Level size     : 8960 bytes
+Starts with    : 01
+Map data offset: 768
 ```
 
 ### Map / Level Interoperability
