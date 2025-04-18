@@ -149,7 +149,6 @@ Map data offset: 770 - 128 - 128 (514)
 ```
 
 ###### PET, C64, C128
-Level size: 8962 bytes, starts with `005D`
 ```
 Level size     : 8962 bytes
 Starts with    : 00 5D
@@ -157,7 +156,6 @@ Map data offset: 770
 ```
 
 ###### MS-DOS, Amiga
-Level size: 8960 bytes, starts with `01`
 ```
 Level size     : 8960 bytes
 Starts with    : 01
