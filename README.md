@@ -98,11 +98,10 @@ Example `D38-10-3`: Door with Unit ID 17, Type 10, needs Key 3
 - Red Frame ($\textcolor{red}{\textrm{▭}}$): Robots
 - Green Frame ($\textcolor{green}{\textrm{▭}}$): Doors, Rafts, ... (Transport)
 - Magenta Frame ($\textcolor{magenta}{\textrm{▭}}$): Items
-- Grey Frame ($\textcolor{gray}{\textrm{▭}}$): Special, Unknown Type
+- Grey Frame ($\textcolor{gray}{\textrm{▭}}$): Unknown Type (do not change!)
 
 - You should read the [Map Editor Instructions](https://www.the8bitguy.com/pr-mapedit/).
-- The first two units (if present) are "special". Do not change them. Editable units always begin with the player unit. 
-- In general, avoid changing units with a grey frame ($\textcolor{gray}{\textrm{▭}}$).
+- Avoid changing units with a grey frame ($\textcolor{gray}{\textrm{▭}}$) (28 - 31).
 - If a unit slot is full (no unused Unit IDs), no other unit of the same type can be added. For example, if there are already 16 items, item 17 cannot be added.
 - If there are empty slots (not used Unit IDs) in unit types, you can add a unit of the same type. For example, a raft in the "doors" type. Empty slots can be identified by *Unknown (0)....*
 - It is also possible to delete a unit to free up a Unit ID.
