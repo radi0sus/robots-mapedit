@@ -37,6 +37,8 @@ A PyQt5-based editor for editing tile-based maps, with support for animated tile
 
 ## Usage
 
+Always start from an existing map / level file. Delete or replace tiles and units with the editor to create a new map / level file.
+
 ### Basic Controls
 
 - **Left-click**: Place the selected tile
