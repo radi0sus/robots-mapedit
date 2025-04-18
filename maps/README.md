@@ -1,4 +1,5 @@
 - `level-a.X16`: Test level for the X16 version from the 8-Bit Guy website. Rename the file to `level-a` and copy it in the robots directory.
 - `level-a.PET`: Test level for the PET version. Rename the file to `level-a` and copy it in the robots directory.
+- `level-a.128`: Test level for the C128 version. Rename the file to `level-a` and copy it in the robots directory.
 - `level-a.MSD`: Test level for MS-DOS version. Rename the file to `level-a` and copy it in the robots directory.
 - **Warning:** Existing level-a will be overwritten!
