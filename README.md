@@ -127,7 +127,10 @@ Example `D38-10-3`: Door with Unit ID 17, Type 10, needs Key 3
   <img src='gfx/edit1.png' width='400' alt='Screenshot' align='left'>
   <img src='gfx/edit2.png' width='400' alt='Screenshot' align='center'>
 </div>
-  
+
+###### Remarks:
+- Amiga: Changing the health of the player freezes the game (no problem in X16).
+
 ### Map Files (Level)
 
 - The application loads maps (levels) in a binary format compatible with PETSCII Robots.
