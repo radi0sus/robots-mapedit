@@ -4,7 +4,7 @@ from PyQt5.QtWidgets import (
     QSpinBox, QComboBox, QGroupBox, QScrollArea, QWidget, QTabWidget
 )
 from PyQt5.QtCore import Qt
-from constants import PLAYER_COLOR, ROBOT_COLOR, DOOR_COLOR, ITEM_COLOR, PLAYER_UNIT_ID
+from constants import PLAYER_COLOR, ROBOT_COLOR, DOOR_COLOR, ITEM_COLOR
 
 class UnitTypeInfo:
     """Information about unit types and their properties"""
@@ -150,14 +150,14 @@ class UnitTypeInfo:
         """Get color for a unit based on its ID and type"""
         if unit_type == 1:  # Player
             return PLAYER_COLOR
-        #elif 3 <= unit_id <= 3 + 26:  # Robots
-        elif 1 + PLAYER_UNIT_ID <= unit_id <= 1 + PLAYER_UNIT_ID + 26:  # Robots
+        elif 1 <= unit_id <= 1 + 26:  # Robots
+        #elif 1 + PLAYER_UNIT_ID <= unit_id <= 1 + PLAYER_UNIT_ID + 26:  # Robots
             return ROBOT_COLOR
-        #elif 34 <= unit_id <= 34 + 15:  # Doors
-        elif 32 + PLAYER_UNIT_ID <= unit_id <= 32 + PLAYER_UNIT_ID + 15:  # Doors
+        elif 32 <= unit_id <= 32 + 15:  # Doors
+        #elif 32 + PLAYER_UNIT_ID <= unit_id <= 32 + PLAYER_UNIT_ID + 15:  # Doors
             return DOOR_COLOR
-        #elif 50 <= unit_id <= 50 + 15:  # Items
-        elif 48 + PLAYER_UNIT_ID <= unit_id <= 48 + PLAYER_UNIT_ID + 15:  # Items
+        elif 48 <= unit_id <= 48 + 15:  # Items
+        #elif 48 + PLAYER_UNIT_ID <= unit_id <= 48 + PLAYER_UNIT_ID + 15:  # Items
             return ITEM_COLOR
         return "gray"  # Default
 
@@ -290,10 +290,7 @@ class UnitEditor(QDialog):
         # Unit ID
         group_layout.addWidget(QLabel("Unit ID:"), 0, 0)
         self.new_id_spin = QSpinBox()
-        if PLAYER_UNIT_ID == 1:
-            self.new_id_spin.setRange(0, 63)
-        else:
-            self.new_id_spin.setRange(0 + PLAYER_UNIT_ID, 63 + PLAYER_UNIT_ID)
+        self.new_id_spin.setRange(0, 63)
         group_layout.addWidget(self.new_id_spin, 0, 1)
         
         # Position
