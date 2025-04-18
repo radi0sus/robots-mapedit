@@ -129,7 +129,8 @@ Example `D38-10-3`: Door with Unit ID 17, Type 10, needs Key 3
 </div>
 
 ###### Remarks:
-- Amiga & C128: Changing the health of the player >12 freezes the game (no problem in X16, MS-DOS and PET).
+- Amiga & C128: Changing the health of the player >12 freezes the game (no problem for X16 and PET).
+- MS-DOS & C64: Gfx and other problems changing the health of the player >12.
 
 ### Map Files (Level)
 
