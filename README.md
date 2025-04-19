@@ -62,19 +62,24 @@ Always restart the script before opening a new map / level file.
 | <kbd>Shift</kbd> + <kbd>C</kbd>  | Large corner made of the selected tile        |
 | <kbd>X</kbd>                     | Cross shape made of the selected tile         |
 | <kbd>F</kbd>                     | Fan (Ventilation)                             |
-| <kbd>D</kbd>                     | Horizontal door                               |
-| <kbd>Shift</kbd> + <kbd>D</kbd>  | Vertical door                                 |
+| <kbd>D</kbd>                     | Horizontal door*                              |
+| <kbd>Shift</kbd> + <kbd>D</kbd>  | Vertical door*                                |
 | <kbd>K</kbd>                     | Kitchen corner                                |
 | <kbd>L</kbd>                     | Lander                                        |
 | <kbd>M</kbd>                     | Mirror cabinet                                |
 | <kbd>S</kbd>                     | Bed (sleep)                                   |
 | <kbd>T</kbd>                     | Table (desk)                                  |
-| <kbd>Shift</kbd> + <kbd>T</kbd>  | Trash compactor                               |
+| <kbd>Shift</kbd> + <kbd>T</kbd>  | Trash compactor*                              |
 | <kbd>W</kbd>                     | WC (2 units)                                  |
 | <kbd>Shift</kbd> + <kbd>W</kbd>  | WC (middle part)                              |
 
+*) You must assign this to a *Unit* to make it interactive.
+
 To define new or alter existing shortcuts in `tilemap_editor.py`, edit the corresponding 
-entries in `self.tile_patterns` or `self.special_tile_patterns`, and add or update the key in `self.pattern_keys`.
+entries in `self.tile_patterns` or `self.special_tile_patterns`, and add or update the key in `self.pattern_keys`.  
+
+Some interactive tiles, such as doors, lifts, and transport pads, must be assigned to a *Unit*; 
+otherwise, they are just tiles without any functionality.
 
 ### Interface Elements
 
