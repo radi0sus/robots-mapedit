@@ -192,6 +192,16 @@ Convert the present level to a PET (C64, C128) compatible level. Use parameter `
 - PET, C64, C128
 - MS-DOS, Amiga
 
+### Conversion to Tiled
+
+`lvl2tiled.py` is a small, pure Python 3 script, independent of the map editor, that converts level files to the [Tiled](https://www.mapeditor.org) TMX format. 
+
+Usage Example:
+```
+python3 lvl2tiled.py level-name > level.tmx
+```
+At the moment, it's just for viewing levels in [Tiled](https://www.mapeditor.org).
+
 ## Project Structure
 
 The project is organized into several Python modules:
@@ -206,6 +216,7 @@ The project is organized into several Python modules:
 - **constants.py**: Shared constants and settings
   
 - **cnvlvl.py**: Standalone pure Python3 script for the interconversion of levels
+- **lvl2tiled.py**: Standalone pure Python3 script for the conversion of levels to [Tiled](https://www.mapeditor.org)
 
 ## Directory Structure
 
@@ -219,9 +230,14 @@ tile-map-editor/
 ├── ui_components.py      # UI widgets
 ├── constants.py          # Shared constants
 ├── unit_editor.py        # Unit editor
-├── cnvlvl.py             # Convert level formats (standalone)   
+├── cnvlvl.py             # Convert level formats (standalone)
+├── lvl2tiled.py          # Convert level to Tiled TMX format (standalone)  
 └── tiles/                # Directory for tile images
-    └── animtiles.png     # Animated tile images
+    ├── animtiles.png     # Animated tile images
+    ├── tiles.png         # Normal tile images 
+    ├── spritesalpha.png  # Sprite images (Player, Robots)
+    ├── items.png         # Hidden items tile images
+    └── keys.png          # Keys tile images
 ```
 
 ## Examples
