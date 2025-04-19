@@ -202,6 +202,8 @@ python3 lvl2tiled.py level-name > level.tmx
 ```
 At the moment, it's just for viewing levels in [Tiled](https://www.mapeditor.org).
 
+<img src='gfx/Screenshot4.png' width='800' alt='Screenshot' align='center'>
+
 ## Project Structure
 
 The project is organized into several Python modules:
