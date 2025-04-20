@@ -236,11 +236,12 @@ tile-map-editor/
 ├── cnvlvl.py             # Convert level formats (standalone)
 ├── lvl2tiled.py          # Convert level to Tiled TMX format (standalone)  
 └── tiles/                # Directory for tile images
-    ├── animtiles.png     # Animated tile images
-    ├── tiles.png         # Normal tile images 
-    ├── spritesalpha.png  # Sprite images (Player, Robots)
-    ├── items.png         # Hidden items tile images
-    └── keys.png          # Keys tile images
+    ├── animtiles.png     # Animated tile image
+    ├── tiles.png         # Normal tile image 
+    ├── spritesalpha.png  # Sprite image (Player, Robots)
+    ├── items.png         # Hidden items tile image
+    ├── keys.png          # Keys tile image
+    └── merged_tiles.png  # Vertically combined tiles.png and animtiles.png (optional)
 ```
 
 ## Examples
