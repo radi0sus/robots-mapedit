@@ -2,6 +2,7 @@ import xml.etree.ElementTree as ET
 import xml.dom.minidom
 import argparse
 import sys
+import os
 
 # map sizes
 MAP_WIDTH = 128
@@ -17,6 +18,13 @@ UNIT_C_OFFSET      = 0x0140
 UNIT_D_OFFSET      = 0x0180 
 UNIT_H_OFFSET      = 0x01C0 
 UNIT_BLOCK_SIZE    = 0x40   
+
+# animation
+ANIM_DURATION = 250 #ms
+# combined tiles.png and animtiles.png to show animations
+# if not present, dont't show animated tiles
+MERGED_TILES = "tiles/merged_tiles.png" 
+
 
 # unit types
 unit_types = {
@@ -190,15 +198,24 @@ def generate_tmx_file(tile_data, name):
         "nextobjectid": "1"
     }
     
-    tile_set_bg_attrib = {
-        "firstgid"  : "1",
-        "name"      : "tiles",
-        "tilewidth" : "24",
-        "tileheight": "24",
-        "tilecount" : "253",
-        "columns"   : "1"
-    }
-    
+    if os.path.exists(MERGED_TILES):
+        tile_set_bg_attrib = {
+            "firstgid"  : "1",
+            "name"      : "tiles",
+            "tilewidth" : "24",
+            "tileheight": "24",
+            "tilecount" : "277",
+            "columns"   : "1"
+        }
+    else:
+        tile_set_bg_attrib = {
+            "firstgid"  : "1",
+            "name"      : "tiles",
+            "tilewidth" : "24",
+            "tileheight": "24",
+            "tilecount" : "253",
+            "columns"   : "1"
+        }
     tile_set_sprites_attrib = {
         "firstgid"  : "301",
         "name"      : "sprites",
@@ -214,7 +231,8 @@ def generate_tmx_file(tile_data, name):
         "tilewidth" : "48",
         "tileheight": "21",
         "tilecount" : "6",
-        "columns"   : "1"
+        "columns"   : "1",
+        "fillmode"  : "preserve-aspect-fit"
     } 
     
     tile_set_keys_attrib = {
@@ -225,12 +243,21 @@ def generate_tmx_file(tile_data, name):
         "tilecount" : "3",
         "columns"   : "1"
     } 
-    image_bg_attrib = {
-        "source": "tiles/tiles.png",
-        "width" : "32",
-        "height": "6072"
-    }
     
+
+    if os.path.exists(MERGED_TILES):       
+        image_bg_attrib = {
+            "source": "tiles/merged_tiles.png",
+            "width" : "32",
+            "height": "6448"
+        }
+    else:
+        image_bg_attrib = {
+            "source": "tiles/tiles.png",
+            "width" : "32",
+            "height": "6072"
+        }
+     
     image_sprites_attrib = {
         "source": "tiles/spritesalpha.png",
         "width" : "24",
@@ -263,18 +290,35 @@ def generate_tmx_file(tile_data, name):
         "encoding": "csv"
     }    
             
-    map_tiles  = [(tile + 1) for tile in level_data['Map data']]
-    map_elem   = ET.Element("map", map_attrib)
-    tile_elem  = ET.SubElement(map_elem, "tileset", tile_set_bg_attrib)
-    image_elem = ET.SubElement(tile_elem, "image", image_bg_attrib) 
-    tile_elem  = ET.SubElement(map_elem, "tileset", tile_set_sprites_attrib)
-    image_elem = ET.SubElement(tile_elem, "image", image_sprites_attrib) 
-    tile_elem  = ET.SubElement(map_elem, "tileset", tile_set_secrets_attrib)
-    image_elem = ET.SubElement(tile_elem, "image", image_secrets_attrib) 
-    tile_elem  = ET.SubElement(map_elem, "tileset", tile_set_keys_attrib)
-    image_elem = ET.SubElement(tile_elem, "image", image_keys_attrib) 
-    layer_elem = ET.SubElement(map_elem, "layer", layer_attrib)
-    data_elem  = ET.SubElement(layer_elem, "data", data_attrib)
+    map_tiles     = [(tile + 1) for tile in level_data['Map data']]
+    map_elem      = ET.Element("map", map_attrib)
+    tile_set_elem = ET.SubElement(map_elem, "tileset", tile_set_bg_attrib)
+    image_elem    = ET.SubElement(tile_set_elem, "image", image_bg_attrib) 
+    if os.path.exists(MERGED_TILES):
+        add_animation( 66, 253, 256, ANIM_DURATION, tile_set_elem) # flag
+        add_animation(143, 269, 272, ANIM_DURATION, tile_set_elem) # server
+        add_animation(148, 257, 260, ANIM_DURATION, tile_set_elem) # trash compactor
+        add_animation(196, 261, 262, ANIM_DURATION, tile_set_elem) # fan
+        add_animation(197, 263, 264, ANIM_DURATION, tile_set_elem) # fan
+        add_animation(200, 265, 266, ANIM_DURATION, tile_set_elem) # fan
+        add_animation(201, 267, 268, ANIM_DURATION, tile_set_elem) # fan
+        add_animation(204, 273, 276, ANIM_DURATION, tile_set_elem) # water
+    
+    tile_set_elem = ET.SubElement(map_elem, "tileset", tile_set_sprites_attrib)
+    image_elem    = ET.SubElement(tile_set_elem, "image", image_sprites_attrib)
+    add_animation( 0,  0, 15, ANIM_DURATION, tile_set_elem) # player
+    add_animation(49, 49, 52, ANIM_DURATION, tile_set_elem) # hover bot
+    add_animation(53, 53, 56, ANIM_DURATION, tile_set_elem) # roller bot
+    add_animation(57, 57, 72, ANIM_DURATION, tile_set_elem) # evil bot
+    
+    tile_set_elem   = ET.SubElement(map_elem, "tileset", tile_set_secrets_attrib)
+    image_elem    = ET.SubElement(tile_set_elem, "image", image_secrets_attrib) 
+    
+    tile_set_elem = ET.SubElement(map_elem, "tileset", tile_set_keys_attrib)
+    image_elem    = ET.SubElement(tile_set_elem, "image", image_keys_attrib) 
+    
+    layer_elem    = ET.SubElement(map_elem, "layer", layer_attrib)
+    data_elem     = ET.SubElement(layer_elem, "data", data_attrib)
     
     data_elem.text = ",".join(map(str, map_tiles))
     
@@ -373,12 +417,29 @@ def add_object_groups(id, name, map_elem, level_data, unit_id_start, unit_id_end
             }
             ET.SubElement(propties_elem, "property", prop_attrib) 
 
+def add_animation(id, start_frame, end_frame, duration, tile_set_elem):
+    tile_attrib = {
+        "id":str(id)
+    }
+    tile_elem =  ET.SubElement(tile_set_elem, "tile", tile_attrib)
+    anim_elem =  ET.SubElement(tile_elem, "animation")
+    
+    for tile_id in range(start_frame, end_frame + 1):
+        frame_attrib = {
+            "tileid"  : str(tile_id),
+            "duration": str(duration)
+        }
+        frame_elem = ET.SubElement(anim_elem, "frame", frame_attrib)
+        
+    #ET.SubElement(tile_elem, "animation")
+    #ET.SubElement(tile_set_elem, "tile")
+    
 #def save_tmx_file(map_elem):
 #    tree = ET.ElementTree(map_elem)
 #    tree.write(output_file, encoding="UTF-8", xml_declaration=True)
 
 ############# Argument parser START
-parser = argparse.ArgumentParser(prog = 'lvl2tiled', 
+parser = argparse.ArgumentParser(prog = 'lvlScrrenshot42tiled', 
          description = "Convert level to Tiled TMX.")
 
 #filename is required
