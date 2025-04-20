@@ -247,7 +247,7 @@ def generate_tmx_file(tile_data, name):
 
     if os.path.exists(MERGED_TILES):       
         image_bg_attrib = {
-            "source": "tiles/merged_tiles.png",
+            "source": MERGED_TILES,
             "width" : "32",
             "height": "6448"
         }
