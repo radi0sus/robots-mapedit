@@ -200,7 +200,8 @@ Usage Example:
 ```
 python3 lvl2tiled.py level-name > level.tmx
 ```
-At the moment, it's just for viewing levels in [Tiled](https://www.mapeditor.org).
+To see animated tiles, `tiles.png` and `animtiles.png` have to be combined vertically in that order to one file named `merged_tiles.png`.
+At the moment, it's just for viewing levels in [Tiled](https://www.mapeditor.org). 
 
 <img src='gfx/Screenshot4.png' width='800' alt='Screenshot' align='center'>
 
