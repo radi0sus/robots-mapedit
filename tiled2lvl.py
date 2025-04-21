@@ -61,7 +61,7 @@ def tmx_to_level_dict(tmx_file):
     Unit_type = [int(prop.attrib["value"])
                   for prop in rob_lvl.findall(".//property[@name='Unit type']")]
     X_coords  = [int(obj.attrib["x"]) for obj in rob_lvl.findall(".//object")]
-    Y_coords  = [int(obj.attrib["x"]) for obj in rob_lvl.findall(".//object")]
+    Y_coords  = [int(obj.attrib["y"]) for obj in rob_lvl.findall(".//object")]
     
     X_coords = [x // 24 if x != 0 else 0 for x in X_coords]
     Y_coords = [(y - 24) // 24 if y != 0 else 0 for y in Y_coords]
@@ -108,7 +108,7 @@ def load_tiled_map(filename = "level-a.tmx"):
 def save_robots_lvl(level_dict):
     filename = level_dict["File Name"]
     
-    binary_data = all_bytes = bytes(
+    binary_data = bytes(
     level_dict['Header bytes'] +
     level_dict['Unit type'] +
     level_dict['X'] +
@@ -142,11 +142,11 @@ def save_robots_lvl(level_dict):
         print(f"File size: {len(binary_data)}")
         
     try:
-        with open(filename, 'wb') as f:
+        with open(f"{filename}.lvl", "wb") as f:
             level_data = f.write(binary_data)
-        print(f"{filename} saved.")
+        print(f"{filename}.lvl saved.")
     except IOError as e:
-        print(f"Error writing binary map file '{filename}': {e} . Exit.")
+        print(f"Error writing binary map file '{filename}'.lvl: {e} . Exit.")
         sys.exit(1)
 
 ############# Argument parser START
@@ -164,4 +164,3 @@ args = parser.parse_args()
 tmx_map_data = load_tiled_map(args.filename)
 level_dict = tmx_to_level_dict(tmx_map_data)
 save_robots_lvl(level_dict)
-
