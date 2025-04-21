@@ -104,7 +104,11 @@ unit_attributes = {
       "C: Right-most coordinate", 
       "D", 
       "H"],
-128: ["A: 0=SPADE 1=HEART 2=STAR", "B", "C", "D", "H"],
+128: ["A: 0=SPADE 1=HEART 2=STAR", 
+      "B", 
+      "C: Extend search area horizontal (between 0 and 127)", 
+      "D: Extend search area vertical (between 0 and 63)", 
+      "H"],
 129: ["A: Quantity (between 1 and 255)", 
       "B", 
       "C: Extend search area horizontal (between 0 and 127)", 
@@ -120,7 +124,7 @@ unit_attributes = {
       "C: Extend search area horizontal (between 0 and 127)", 
       "D: Extend search area vertical (between 0 and 63)", 
       "H"],
-132: ["Quantity (between 1 and 255)", 
+132: ["A: Quantity (between 1 and 255)", 
       "B", 
       "C: Extend search area horizontal (between 0 and 127)", 
       "D: Extend search area vertical (between 0 and 63)", 
@@ -369,11 +373,11 @@ def generate_tmx_file(tile_data, name):
     
     data_elem.text = ",".join(map(str, map_tiles))
     
-    add_object_groups(1, "Player", map_elem, level_data, 0, 1, 1)
-    add_object_groups(2, "Robots", map_elem, level_data, 1, 28, 1)
-    add_object_groups(3, "Do not edit", map_elem, level_data, 28, 32, 0)
-    add_object_groups(4, "Doors and Transport", map_elem, level_data, 32, 48, 1)
-    add_object_groups(5, "Hidden Objects", map_elem, level_data, 48, 64, 1)
+    add_object_groups(1, "Player (1)", map_elem, level_data, 0, 1, 1)
+    add_object_groups(2, "Robots (27)", map_elem, level_data, 1, 28, 1)
+    add_object_groups(3, "Do not edit (4)", map_elem, level_data, 28, 32, 0)
+    add_object_groups(4, "Doors and Transport (16)", map_elem, level_data, 32, 48, 1)
+    add_object_groups(5, "Hidden Objects (16)", map_elem, level_data, 48, 64, 1)
     
     return(map_elem)
 
