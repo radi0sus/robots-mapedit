@@ -30,15 +30,15 @@ MERGED_TILES = "tiles/merged_tiles.png"
 unit_types = {
   0: "Unknown",
   1: "Player",
-  2: "H_Bot l/r",
-  3: "H_Bot u/d",
-  4: "H_Bot chase attack mode",
-  7: "Transport pad",
+  2: "HBot l/r",
+  3: "HBot u/d",
+  4: "HBot chase attack mode",
+  7: "Transporter pad",
   9: "Evilbot",
  10: "Door",
- 16: "Trash compactor",
- 17: "R_Bot u/d",
- 18: "R_Bot l/r",
+ 16: "Trash comp",
+ 17: "RBot u/d",
+ 18: "RBot l/r",
  19: "Lift",
  22: "Water raft",
 128: "Key",
@@ -110,12 +110,12 @@ unit_attributes = {
       "C: Extend search area horizontal (between 0 and 127)", 
       "D: Extend search area vertical (between 0 and 63)", 
       "H"],
-130: ["Quantity (between 1 and 255)", 
+130: ["A: Quantity (between 1 and 255)", 
       "B", 
       "C: Extend search area horizontal (between 0 and 127)", 
       "D: Extend search area vertical (between 0 and 63)", 
-      "H"],
-131: ["Quantity (between 1 and 255)", 
+      "H:"],
+131: ["A: Quantity (between 1 and 255)", 
       "B", 
       "C: Extend search area horizontal (between 0 and 127)", 
       "D: Extend search area vertical (between 0 and 63)", 
@@ -125,12 +125,12 @@ unit_attributes = {
       "C: Extend search area horizontal (between 0 and 127)", 
       "D: Extend search area vertical (between 0 and 63)", 
       "H"],
-133: ["Quantity (between 1 and 255)", 
+133: ["A: Quantity (between 1 and 255)", 
       "B", 
       "C: Extend search area horizontal (between 0 and 127)", 
       "D: Extend search area vertical (between 0 and 63)", 
       "H"],
-134: ["Quantity (between 1 and 255)", 
+134: ["A: Quantity (between 1 and 255)", 
       "B", 
       "C: Extend search area horizontal (between 0 and 127)", 
       "D: Extend search area vertical (between 0 and 63)", 
@@ -138,7 +138,7 @@ unit_attributes = {
 }
 
 # load map
-def load_map(filename = "level-c"):
+def load_map(filename = "level-a"):
     unit_offset = 0
     try:
         with open(filename, 'rb') as f:
@@ -146,7 +146,9 @@ def load_map(filename = "level-c"):
 
         while binary_data[unit_offset] !=0x01:
                 unit_offset += 1
-
+                
+        header_bytes = binary_data[0:unit_offset]
+        
         unit_t = binary_data[UNIT_TYPES_OFFSET + unit_offset:UNIT_TYPES_OFFSET + unit_offset + UNIT_BLOCK_SIZE]
         unit_x = binary_data[UNIT_X_OFFSET + unit_offset:UNIT_X_OFFSET + unit_offset + UNIT_BLOCK_SIZE]
         unit_y = binary_data[UNIT_Y_OFFSET + unit_offset:UNIT_Y_OFFSET + unit_offset + UNIT_BLOCK_SIZE]
@@ -158,10 +160,14 @@ def load_map(filename = "level-c"):
         file_size = len(binary_data)
         map_size = MAP_WIDTH * MAP_HEIGHT
         map_offset = file_size - map_size
+        fill_bytes = binary_data[UNIT_H_OFFSET + unit_offset + UNIT_BLOCK_SIZE:map_offset]
         map_data = binary_data[map_offset:file_size]
         
         level_dict = {
+            "File Name"   : filename,
             "File Size"   : file_size,
+            "Header Bytes": list(header_bytes),
+            "Fill Bytes"  : list(fill_bytes),
             "Units offset": unit_offset,
             "Unit type"   : list(unit_t),
             "X"           : list(unit_x),
@@ -291,7 +297,47 @@ def generate_tmx_file(tile_data, name):
     }    
             
     map_tiles     = [(tile + 1) for tile in level_data['Map data']]
+    
     map_elem      = ET.Element("map", map_attrib)
+    
+    propties_map_elem = ET.SubElement(map_elem, "properties")
+    prop_map_attrib = {
+            "name" : "File Name",
+            "value": str(level_data["File Name"]),
+        }
+    prop_map_elem = ET.SubElement(propties_map_elem, "property", prop_map_attrib)
+    
+    prop_map_attrib = {
+            "name" : "File Size",
+            "value": str(level_data["File Size"]),
+        }
+    prop_map_elem = ET.SubElement(propties_map_elem, "property", prop_map_attrib)
+    
+    prop_map_attrib = {
+            "name" : "Header bytes",
+            "value": str(level_data["Header Bytes"]),
+        }
+    prop_map_elem = ET.SubElement(propties_map_elem, "property", prop_map_attrib)
+    
+    prop_map_attrib = {
+            "name" : "Fill bytes",
+            "value": str(level_data["Fill Bytes"]),
+        }
+    prop_map_elem = ET.SubElement(propties_map_elem, "property", prop_map_attrib)
+    
+    prop_map_attrib = {
+            "name" : "Unit offset",
+            "value": str(level_data["Units offset"]),
+        }
+    prop_map_elem = ET.SubElement(propties_map_elem, "property", prop_map_attrib)
+    
+    prop_map_attrib = {
+            "name" : "Map offset",
+            "value": str(level_data["Map offset"]),
+        }
+    prop_map_elem = ET.SubElement(propties_map_elem, "property", prop_map_attrib)
+    
+    
     tile_set_elem = ET.SubElement(map_elem, "tileset", tile_set_bg_attrib)
     image_elem    = ET.SubElement(tile_set_elem, "image", image_bg_attrib) 
     if os.path.exists(MERGED_TILES):
@@ -303,6 +349,7 @@ def generate_tmx_file(tile_data, name):
         add_animation(200, 265, 266, ANIM_DURATION, tile_set_elem) # fan
         add_animation(201, 267, 268, ANIM_DURATION, tile_set_elem) # fan
         add_animation(204, 273, 276, ANIM_DURATION, tile_set_elem) # water
+        
     
     tile_set_elem = ET.SubElement(map_elem, "tileset", tile_set_sprites_attrib)
     image_elem    = ET.SubElement(tile_set_elem, "image", image_sprites_attrib)
@@ -322,21 +369,23 @@ def generate_tmx_file(tile_data, name):
     
     data_elem.text = ",".join(map(str, map_tiles))
     
-    add_object_groups(1, "Player", map_elem, level_data, 0, 1, )
-    add_object_groups(2, "Robots", map_elem, level_data, 1, 27)
-    add_object_groups(3, "Doors and Transport", map_elem, level_data, 32, 47)
-    add_object_groups(4, "Hidden Objects", map_elem, level_data, 48, 63)
+    add_object_groups(1, "Player", map_elem, level_data, 0, 1, 1)
+    add_object_groups(2, "Robots", map_elem, level_data, 1, 28, 1)
+    add_object_groups(3, "Do not edit", map_elem, level_data, 28, 32, 0)
+    add_object_groups(4, "Doors and Transport", map_elem, level_data, 32, 48, 1)
+    add_object_groups(5, "Hidden Objects", map_elem, level_data, 48, 64, 1)
     
     return(map_elem)
 
-def add_object_groups(id, name, map_elem, level_data, unit_id_start, unit_id_end):
+def add_object_groups(id, name, map_elem, level_data, unit_id_start, unit_id_end, visible):
     # slice the dict
-    d = dict(list(level_data.items())[2:10])
+    d = dict(list(level_data.items())[5:13]) # only object relevant lists from dict
     d = {key: value[unit_id_start:unit_id_end] for key, value in d.items()}
-    
+
     obj_grp_attrib = {
-        "id": str(id),
-        "name": str(name)
+        "id"     : str(id),
+        "name"   : str(name),
+        "visible": str(visible)
     } 
     obj_grp_elem =  ET.SubElement(map_elem, "objectgroup", obj_grp_attrib)
 
@@ -439,7 +488,7 @@ def add_animation(id, start_frame, end_frame, duration, tile_set_elem):
 #    tree.write(output_file, encoding="UTF-8", xml_declaration=True)
 
 ############# Argument parser START
-parser = argparse.ArgumentParser(prog = 'lvlScrrenshot42tiled', 
+parser = argparse.ArgumentParser(prog = 'lvltiled', 
          description = "Convert level to Tiled TMX.")
 
 #filename is required
