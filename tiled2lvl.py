@@ -78,15 +78,25 @@ def tmx_to_level_dict(tmx_file):
     for obj in rob_lvl.findall(".//object"):
         props = obj.find("properties")
         prop_list = props.findall("property")
-        A_values.append(int(prop_list[3].attrib["value"]))  # A
-        B_values.append(int(prop_list[4].attrib["value"]))  # B
-        C_values.append(int(prop_list[5].attrib["value"]))  # C
-        D_values.append(int(prop_list[6].attrib["value"]))  # D
-        H_values.append(int(prop_list[7].attrib["value"]))  # H
         
+        for prop in prop_list:
+            name = prop.attrib["name"]
+            value = int(prop.attrib["value"])
+
+            if name.startswith("A"):
+                A_values.append(value)
+            elif name.startswith("B"):
+                B_values.append(value)
+            elif name.startswith("C"):
+                C_values.append(value)
+            elif name.startswith("D"):
+                D_values.append(value)
+            elif name.startswith("H"):
+                H_values.append(value)
+    
     level_dict.update({"Unit type":Unit_type})
-    level_dict.update({"Y":Y_coords})
     level_dict.update({"X":X_coords})
+    level_dict.update({"Y":Y_coords})
     level_dict.update({"A":A_values})
     level_dict.update({"B":B_values})
     level_dict.update({"C":C_values})
