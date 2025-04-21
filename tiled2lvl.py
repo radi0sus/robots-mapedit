@@ -25,11 +25,11 @@ def tmx_to_level_dict(tmx_file):
     level_dict.update({"Map Data":tile_list})
     
     # check number of units in each category
-    player_group   = rob_lvl.find(".//objectgroup[@name='Player']")
-    robots_group   = rob_lvl.find(".//objectgroup[@name='Robots']")
-    not_edit_group = rob_lvl.find(".//objectgroup[@name='Do not edit']")
-    doors_group    = rob_lvl.find(".//objectgroup[@name='Doors and Transport']")
-    hidden_group   = rob_lvl.find(".//objectgroup[@name='Hidden Objects']")
+    player_group   = rob_lvl.find(".//objectgroup[@name='Player (1)']")
+    robots_group   = rob_lvl.find(".//objectgroup[@name='Robots (27)']")
+    not_edit_group = rob_lvl.find(".//objectgroup[@name='Do not edit (4)']")
+    doors_group    = rob_lvl.find(".//objectgroup[@name='Doors and Transport (16)']")
+    hidden_group   = rob_lvl.find(".//objectgroup[@name='Hidden Objects (16)']")
     
     size_player_group   = len(player_group.findall("object"))
     size_robots_group   = len(robots_group.findall("object"))
@@ -38,23 +38,28 @@ def tmx_to_level_dict(tmx_file):
     size_hidden_group   = len(hidden_group.findall("object"))
     
     if size_player_group != 1:
-        print(f"\nWarning! Player count is {size_player_group}, must be 1.")
+        print(f"\nWarning! Player count is {size_player_group}, must be 1. Exit.")
+        sys.exit(1)
     else:
-        print(f"Player count: {size_player_group}")
+        print(f"\nPlayer count: {size_player_group}")
     if size_robots_group != 27:
-        print(f"\nWarning! Robots count is {size_robots_group}, must be 27.")
+        print(f"\nWarning! Robots count is {size_robots_group}, must be 27. Exit.")
+        sys.exit(1)
     else:
         print(f"Robots count: {size_robots_group}")
     if size_not_edit_group != 4:
-        print(f"\nWarning! 'Not edit' count is {size_not_edit_group}, must be 4.")
+        print(f"\nWarning! 'Not edit' count is {size_not_edit_group}, must be 4. Exit.")
+        sys.exit(1)
     else:
         print(f"'Not edit' count: {size_not_edit_group}")
     if size_doors_group != 16:
-        print(f"\nWarning! Doors and transport count is {size_doors_group}, must be 16.")
+        print(f"\nWarning! Doors and transport count is {size_doors_group}, must be 16. Exit.")
+        sys.exit(1)
     else:
         print(f"Doors and transport count: {size_doors_group}")
     if size_hidden_group != 16:
-        print(f"\nWarning! Hidden objects count is {size_hidden_group}, must be 16.")
+        print(f"\nWarning! Hidden objects count is {size_hidden_group}, must be 16.Exit.")
+        sys.exit(1)
     else:
         print(f"Hidden objects count: {size_hidden_group}")
     
@@ -149,12 +154,12 @@ def save_robots_lvl(level_dict):
               f"is different from expected file size: {level_dict['File Size']}! Exit.")
         sys.exit(1)
     else:
-        print(f"File size: {len(binary_data)}")
+        print(f"\nFile size: {len(binary_data)}")
         
     try:
         with open(f"{filename}.lvl", "wb") as f:
             level_data = f.write(binary_data)
-        print(f"{filename}.lvl saved.")
+        print(f"\n{filename}.lvl saved.")
     except IOError as e:
         print(f"Error writing binary map file '{filename}'.lvl: {e} . Exit.")
         sys.exit(1)
