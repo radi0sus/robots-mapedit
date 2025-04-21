@@ -5,15 +5,13 @@ import sys
 
 
 
-tree = ET.parse('test.tmx')
-rob_lvl = tree.getroot()
-rob_lvl_propties = rob_lvl.find("properties")
 
-
-def tmx_to_level_dict(tmx_file):
+def tmx_to_level_dict(tree):
 
     level_dict = {}
-
+    rob_lvl = tree.getroot()
+    rob_lvl_propties = rob_lvl.find("properties")
+    
     for prop in rob_lvl_propties.iter("property"):
         if prop.get("name") != "File Name":
             level_dict.update({prop.get("name"):ast.literal_eval(prop.get("value"))})
@@ -21,7 +19,7 @@ def tmx_to_level_dict(tmx_file):
             level_dict.update({prop.get("name"):prop.get("value")})
             
     tile_list = list(map(int, rob_lvl.find("layer").find("data").text.strip().split(',')))
-    tile_list = [tile -1 for tile in tile_list]
+    tile_list = [max(tile - 1, 0) for tile in tile_list]
     level_dict.update({"Map Data":tile_list})
     
     # check number of units in each category
@@ -110,14 +108,15 @@ def tmx_to_level_dict(tmx_file):
     
     return level_dict
 
-def load_tiled_map(filename = "level-a.tmx"):
+def load_tiled_map(filename):
     try:
-        with open(filename, 'r') as f:
-            level_data = f.read()
-        return level_data
+        tree = ET.parse(filename)
+        #with open(filename, 'r') as f:
+        #    level_data = f.read()
+        return tree
         
     except IOError as e:
-        print(f"Error loading binary map file '{filename}': {e} . Exit.")
+        print(f"\nError loading TMX file '{filename}': {e} . Exit.")
         sys.exit(1)
 
 def save_robots_lvl(level_dict):
@@ -150,7 +149,7 @@ def save_robots_lvl(level_dict):
     #print(len(level_dict['Map Data']))
     
     if len(binary_data) != level_dict["File Size"]:
-        print(f"Warning! Calculated file size: {len(binary_data)} "
+        print(f"\nWarning! Calculated file size: {len(binary_data)} "
               f"is different from expected file size: {level_dict['File Size']}! Exit.")
         sys.exit(1)
     else:
@@ -161,7 +160,7 @@ def save_robots_lvl(level_dict):
             level_data = f.write(binary_data)
         print(f"\n{filename}.lvl saved.")
     except IOError as e:
-        print(f"Error writing binary map file '{filename}'.lvl: {e} . Exit.")
+        print(f"\nError writing binary map file '{filename}'.lvl: {e} . Exit.")
         sys.exit(1)
 
 ############# Argument parser START
@@ -176,6 +175,6 @@ parser.add_argument('filename',
 args = parser.parse_args()
 ############# Argument parser END
 
-tmx_map_data = load_tiled_map(args.filename)
-level_dict = tmx_to_level_dict(tmx_map_data)
+tmx_tree = load_tiled_map(args.filename)
+level_dict = tmx_to_level_dict(tmx_tree)
 save_robots_lvl(level_dict)
