@@ -192,16 +192,28 @@ Convert the present level to a PET (C64, C128) compatible level. Use parameter `
 - PET, C64, C128
 - MS-DOS, Amiga
 
-### Conversion to Tiled
+### Conversion to and from Tiled
 
-`lvl2tiled.py` is a small, pure Python 3 script, independent of the map editor, that converts level files to the [Tiled](https://www.mapeditor.org) TMX format. 
+`lvl2tiled.py` and `tiled2lvl.py` are small, pure Python 3 scripts, independent of the map editor, that convert level files to and from the [Tiled](https://www.mapeditor.org) TMX format. 
 
-Usage Example:
+Usage Example `lvl2tiled.py`:
 ```
 python3 lvl2tiled.py level-name > level.tmx
 ```
-To see animated tiles, `tiles.png` and `animtiles.png` have to be combined vertically in that order to one file named `merged_tiles.png`.
-At the moment, it's just for viewing levels in [Tiled](https://www.mapeditor.org). 
+To see animated tiles, `tiles.png` and `animtiles.png` have to be combined vertically in that order to one file named `merged_tiles.png`. 
+
+It is possible to convert a Tiled TMX file to a Robots level file with `tiled2lvl.py`. 
+
+Usage Example `tiled2lvl.py`:
+```
+python3 tiled2lvl.py level-a.tmx
+```
+A Robots level file with the name `level-a.lvl` will be saved. To load this level in Robots you have to remove the file suffix. 
+
+- It is not possible to create levels from scratch with Tiled.  
+- Use an existing level and modify it as needed with Tiled.  
+- The easiest way to place objects (e.g., robots or hidden items) is to duplicate an existing one. Be sure to delete an object in exchange, as the number of certain object types must remain constant.  
+- The same rules apply: you cannot add extra units, nor can you simply delete them.  
 
 <img src='gfx/Screenshot4.png' width='800' alt='Screenshot' align='center'>
 
@@ -220,6 +232,7 @@ The project is organized into several Python modules:
   
 - **cnvlvl.py**: Standalone pure Python3 script for the interconversion of levels
 - **lvl2tiled.py**: Standalone pure Python3 script for the conversion of levels to [Tiled](https://www.mapeditor.org)
+- **tiled2lvl.py**: Standalone pure Python3 script for the conversion of levels from [Tiled](https://www.mapeditor.org)
 
 ## Directory Structure
 
@@ -234,7 +247,8 @@ tile-map-editor/
 ├── constants.py          # Shared constants
 ├── unit_editor.py        # Unit editor
 ├── cnvlvl.py             # Convert level formats (standalone)
-├── lvl2tiled.py          # Convert level to Tiled TMX format (standalone)  
+├── lvl2tiled.py          # Convert level to Tiled TMX format (standalone)
+├── tiled2lvl.py          # Convert level from Tiled TMX format (standalone) 
 └── tiles/                # Directory for tile images
     ├── animtiles.png     # Animated tile image
     ├── tiles.png         # Normal tile image 
