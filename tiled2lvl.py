@@ -4,8 +4,6 @@ import argparse
 import sys
 
 
-
-
 def tmx_to_level_dict(tree):
 
     level_dict = {}
@@ -19,7 +17,10 @@ def tmx_to_level_dict(tree):
             level_dict.update({prop.get("name"):prop.get("value")})
             
     tile_list = list(map(int, rob_lvl.find("layer").find("data").text.strip().split(',')))
-    tile_list = [max(tile - 1, 0) for tile in tile_list]
+    invalid_tiles = [tile for tile in tile_list if tile < 0 or tile > 256]
+    tile_list = [max(tile - 1, 0) if tile <= 256 else 0 for tile in tile_list]
+    if invalid_tiles:
+        print(f"\nWarning! Invalid tiles: {invalid_tiles} were set to zero.")
     level_dict.update({"Map Data":tile_list})
     
     # check number of units in each category
