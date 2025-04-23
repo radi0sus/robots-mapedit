@@ -211,7 +211,8 @@ python3 tiled2lvl.py level-a.tmx -o level-a
 A Robots level file with the name `level-a` will be saved. 
 
 - It is not possible to create levels from scratch with Tiled.  
-- Use an existing level and modify it as needed with Tiled.  
+- Use an existing level and modify it as needed with Tiled.
+- Activate View > Snapping > Snap to grid in Tiled (grid must be of tile size). Otherwise objects are easily misplaced. 
 - The easiest way to place objects (e.g., robots or hidden items) is to duplicate an existing one. Be sure to delete an object in exchange, as the number of certain object types must remain constant.  
 - The same rules apply: you cannot add extra units, nor can you simply delete them.
 - Changing an object's properties doesn't change its appearance. For example, if you turn a hover bot (unit type 2) into an evil bot (unit type 9) by changing its unit type, it will still look like a hover bot.
