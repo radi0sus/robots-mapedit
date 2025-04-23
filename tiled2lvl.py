@@ -120,8 +120,11 @@ def load_tiled_map(filename):
         print(f"\nError loading TMX file '{filename}': {e} . Exit.")
         sys.exit(1)
 
-def save_robots_lvl(level_dict):
-    filename = level_dict["File Name"]
+def save_robots_lvl(level_dict, output = ""):
+    if output:
+        filename = output
+    else:
+        filename = level_dict["File Name"]
     
     binary_data = bytes(
     level_dict['Header bytes'] +
@@ -157,11 +160,11 @@ def save_robots_lvl(level_dict):
         print(f"\nFile size: {len(binary_data)}")
         
     try:
-        with open(f"{filename}.lvl", "wb") as f:
+        with open(f"{filename}", "wb") as f:
             level_data = f.write(binary_data)
-        print(f"\n{filename}.lvl saved.")
+        print(f"\n{filename} saved.")
     except IOError as e:
-        print(f"\nError writing binary map file '{filename}'.lvl: {e} . Exit.")
+        print(f"\nError writing binary map file '{filename}': {e} . Exit.")
         sys.exit(1)
 
 ############# Argument parser START
@@ -169,13 +172,17 @@ parser = argparse.ArgumentParser(prog = 'tiled2lvl',
          description = "Convert Tiled TMX to level.")
 
 #filename is required
-parser.add_argument('filename',
+parser.add_argument("filename",
                     type = str,
-                    help = 'filename of the level to be converted; e.g. level-a.tmx')
+                    help = 'filename of the TMX file to be converted; e.g. level-a.tmx')
+
+parser.add_argument("-o", "--output",
+                    type = str,
+                    help = "filename of the Robots level; e.g. level-a")
 
 args = parser.parse_args()
 ############# Argument parser END
 
 tmx_tree = load_tiled_map(args.filename)
 level_dict = tmx_to_level_dict(tmx_tree)
-save_robots_lvl(level_dict)
+save_robots_lvl(level_dict, args.output)
