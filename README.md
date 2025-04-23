@@ -206,15 +206,16 @@ It is possible to convert a Tiled TMX file to a Robots level file with `tiled2lv
 
 Usage Example `tiled2lvl.py`:
 ```
-python3 tiled2lvl.py level-a.tmx
+python3 tiled2lvl.py level-a.tmx -o level-a
 ```
-A Robots level file with the name `level-a.lvl` will be saved. To load this level in Robots you have to remove the file suffix. 
+A Robots level file with the name `level-a` will be saved. 
 
 - It is not possible to create levels from scratch with Tiled.  
 - Use an existing level and modify it as needed with Tiled.  
 - The easiest way to place objects (e.g., robots or hidden items) is to duplicate an existing one. Be sure to delete an object in exchange, as the number of certain object types must remain constant.  
 - The same rules apply: you cannot add extra units, nor can you simply delete them.
 - Changing an object's properties doesn't change its appearance. For example, if you turn a hover bot (unit type 2) into an evil bot (unit type 9) by changing its unit type, it will still look like a hover bot.
+- The object tiles are for orientation purposes and are not actual map tiles. For example, if you have a transporter pad object, you need to place a corresponding transporter pad tile at the same position on the map layer to make it visible.
 
 <img src='gfx/Screenshot4.png' width='800' alt='Screenshot' align='center'>
 
