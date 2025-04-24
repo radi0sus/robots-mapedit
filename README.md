@@ -220,7 +220,8 @@ A Robots level file with the name `level-a` will be saved.
 - The easiest way to place objects (e.g., robots or hidden items) is to duplicate an existing one. Be sure to delete an object in exchange, as the number of certain object types must remain constant.  
 - The same rules apply: you cannot add extra units, nor can you simply delete them.
 - Changing an object's properties doesn't change its appearance. For example, if you turn a hover bot (unit type 2) into an evil bot (unit type 9) by changing its unit type, it will still look like a hover bot.
-- The object tiles are for orientation purposes and are not actual map tiles. For example, if you have a transporter pad object, you need to place a corresponding transporter pad tile at the same position on the map layer to make it visible.
+- The object tiles are for orientation purposes and are not actual map tiles. For example, if you have a transporter pad object, you need to place a corresponding transporter pad tile at the same
+  position on the map layer to make it visible in the game.
 
 <img src='gfx/Screenshot4.png' width='800' alt='Screenshot' align='center'>
 
