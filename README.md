@@ -2,6 +2,10 @@
 
 A PyQt5-based editor for editing tile-based maps, with support for animated tiles and various unit types. This application is designed for editing maps compatible with game engines like [PETSCII Robots](https://www.the8bitguy.com/25753/petscii-robot-shareware-available/).
 
+If you want to use the more advanced editor [Tiled](https://www.mapeditor.org): To convert Robots level files to and from the TMX format you only need to download `lvl2tiled.py`, `tiled2lvl.py`, and `cnvlvl.py` (for interconversion among different Robots versions), along with the bitmaps from the Amiga version, placed in a `tiles` folder in the same directory.  
+
+For instructions on using these with Tiled, please see [this section](#conversion-to-and-from-tiled).
+
 <img src='gfx/Screenshot1.png' width='800' alt='Screenshot' align='center'>
 <img src='gfx/Screenshot2.png' width='800' alt='Screenshot' align='center'>
 <img src='gfx/Screenshot3.png' width='800' alt='Screenshot' align='center'>
@@ -194,7 +198,7 @@ Convert the present level to a PET (C64, C128) compatible level. Use parameter `
 
 ### Conversion to and from Tiled
 
-`lvl2tiled.py` and `tiled2lvl.py` are small, pure Python 3 scripts, independent of the map editor, that convert level files to and from the [Tiled](https://www.mapeditor.org) TMX format. 
+`lvl2tiled.py` and `tiled2lvl.py` are small, pure Python3 scripts, independent of the map editor, that convert level files to and from the [Tiled](https://www.mapeditor.org) TMX format. 
 
 Usage Example `lvl2tiled.py`:
 ```
