@@ -8,4 +8,8 @@
   
   <img src='new-level-a/level-a.png' width='600' alt='level-a' align='center'>  
   
-- **Warning:** Existing level-a will be overwritten!
+- `new-level-b`: A complete new level (made with Tiled). Rename the file related to your system to `level-b` and copy it in the robots directory.
+  
+  <img src='new-level-b/level-b.png' width='600' alt='level-b' align='center'>  
+  
+- **Warning:** Existing levels will be overwritten!
